@@ -1,2 +1,2 @@
-# mustamirr
-Educational content app for students and teachers — built with Flutter &amp; Laravel.
+# Mustamirr
+A Flutter educational content app that allows students to download and access learning materials offline.

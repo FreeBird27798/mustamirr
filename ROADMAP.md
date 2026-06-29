@@ -68,7 +68,9 @@ lib/
 - [ ] Set up go_router with role-based routing
 
 ### Phase 2 — Auth Feature (I build, you learn)
-- [ ] Login screen (UI)
+- [ ] Splash screen
+- [ ] Onboarding screens (3 screens, shown only once)
+- [ ] Login screen (UI) + Remember Me
 - [ ] Register screen (UI)
 - [ ] AuthBloc (login / register / logout events & states)
 - [ ] Auth repository + data source (mock first, then real API)
@@ -102,6 +104,7 @@ lib/
 - [ ] Error handling & loading states throughout the app
 - [ ] Multi-language support (Arabic + English) using flutter_localizations + intl
 - [ ] App icon & splash screen
+- [ ] CI/CD pipeline (.github/workflows/ci.yml) — runs flutter analyze, dart format, flutter test on every push
 - [ ] Final testing
 
 ---

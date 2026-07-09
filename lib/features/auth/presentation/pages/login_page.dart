@@ -186,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () => context.go(AppRoutes.forgotPassword),
                         child: const Text(
                           'نسيت كلمة المرور؟',
                           style: TextStyle(color: AppColors.glow),

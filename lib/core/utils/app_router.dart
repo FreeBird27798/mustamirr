@@ -5,6 +5,9 @@ import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
 import '../../features/auth/presentation/pages/onboarding_page.dart';
+import '../../features/auth/presentation/pages/forgot_password_page.dart';
+import '../../features/auth/presentation/pages/verify_otp_page.dart';
+import '../../features/auth/presentation/pages/reset_password_page.dart';
 
 // Placeholder pages — will be replaced in later phases
 class StudentHomePage extends StatelessWidget {
@@ -34,6 +37,9 @@ class AppRoutes {
   static const onboarding = '/onboarding';
   static const login = '/login';
   static const register = '/register';
+  static const forgotPassword = '/forgot-password';
+  static const verifyOtp = '/verify-otp';
+  static const resetPassword = '/reset-password';
   static const studentHome = '/student';
   static const teacherHome = '/teacher';
   static const adminHome = '/admin';
@@ -58,7 +64,11 @@ final GoRouter appRouter = GoRouter(
     final token = prefs.getString('auth_token');
     final role = prefs.getString('user_role');
 
-    final isAuthPage = loc == AppRoutes.login || loc == AppRoutes.register;
+    final isAuthPage = loc == AppRoutes.login ||
+        loc == AppRoutes.register ||
+        loc == AppRoutes.forgotPassword ||
+        loc == AppRoutes.verifyOtp ||
+        loc == AppRoutes.resetPassword;
 
     // No token → go to login
     if (token == null) {
@@ -87,6 +97,20 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.register,
       builder: (context, _) => const RegisterPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.forgotPassword,
+      builder: (context, _) => const ForgotPasswordPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.verifyOtp,
+      builder: (context, state) =>
+          VerifyOtpPage(email: state.extra as String),
+    ),
+    GoRoute(
+      path: AppRoutes.resetPassword,
+      builder: (context, state) =>
+          ResetPasswordPage(email: state.extra as String),
     ),
     GoRoute(
       path: AppRoutes.studentHome,

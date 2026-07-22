@@ -56,7 +56,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<void> logout() async {
-    await apiClient.dio.post('/logout');
+    try {
+      await apiClient.dio.post('/logout');
+    } catch (_) {
+      // Best-effort: server logout failing shouldn't block local logout
+    }
     await sharedPreferences.remove('auth_token');
     await sharedPreferences.remove('user_role');
   }

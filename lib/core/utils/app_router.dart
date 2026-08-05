@@ -4,8 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
-import '../../features/auth/presentation/pages/splash_page.dart';
 import '../../features/auth/presentation/pages/onboarding_page.dart';
+import '../../features/auth/presentation/pages/splash_page.dart';
 import '../../features/student/presentation/pages/student_home_page.dart';
 import '../../features/student/presentation/pages/favorites_page.dart';
 import '../../features/student/presentation/pages/downloads_page.dart';
@@ -13,13 +13,12 @@ import '../../features/student/presentation/pages/lessons_page.dart';
 import '../../features/student/presentation/pages/notifications_page.dart';
 import '../../features/student/presentation/pages/subjects_page.dart';
 import '../../features/student/presentation/pages/profile_page.dart';
-
-class TeacherHomePage extends StatelessWidget {
-  const TeacherHomePage({super.key});
-  @override
-  Widget build(BuildContext context) =>
-      const Scaffold(body: Center(child: Text('Teacher Home')));
-}
+import '../../features/teacher/presentation/pages/teacher_dashboard_page.dart';
+import '../../features/teacher/presentation/pages/teacher_lessons_page.dart';
+import '../../features/teacher/presentation/pages/teacher_students_page.dart';
+import '../../features/teacher/presentation/pages/teacher_profile_page.dart';
+import '../../features/teacher/presentation/pages/manage_lesson_page.dart';
+import '../../features/teacher/domain/entities/teacher_lesson_entity.dart';
 
 class AdminHomePage extends StatelessWidget {
   const AdminHomePage({super.key});
@@ -40,6 +39,10 @@ class AppRoutes {
   static const downloads = '/student/downloads';
   static const profile = '/student/profile';
   static const teacherHome = '/teacher';
+  static const teacherLessons = '/teacher/lessons';
+  static const teacherStudents = '/teacher/students';
+  static const teacherProfile = '/teacher/profile';
+  static const teacherManageLesson = '/teacher/manage-lesson';
   static const adminHome = '/admin';
 
   static const lessonsRoute = '/student/lessons/:subjectId';
@@ -155,9 +158,49 @@ final GoRouter appRouter = GoRouter(
       path: AppRoutes.notifications,
       builder: (context, _) => const NotificationsPage(),
     ),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return _TeacherShell(navigationShell: navigationShell);
+      },
+      branches: [
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.teacherHome,
+              builder: (context, _) => const TeacherDashboardPage(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.teacherLessons,
+              builder: (context, _) => const TeacherLessonsPage(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.teacherStudents,
+              builder: (context, _) => const TeacherStudentsPage(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.teacherProfile,
+              builder: (context, _) => const TeacherProfilePage(),
+            ),
+          ],
+        ),
+      ],
+    ),
     GoRoute(
-      path: AppRoutes.teacherHome,
-      builder: (context, _) => const TeacherHomePage(),
+      path: AppRoutes.teacherManageLesson,
+      builder: (context, state) =>
+          ManageLessonPage(lesson: state.extra as TeacherLessonEntity?),
     ),
     GoRoute(
       path: AppRoutes.adminHome,
@@ -165,6 +208,50 @@ final GoRouter appRouter = GoRouter(
     ),
   ],
 );
+
+class _TeacherShell extends StatelessWidget {
+  final StatefulNavigationShell navigationShell;
+  const _TeacherShell({required this.navigationShell});
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        body: navigationShell,
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: navigationShell.currentIndex,
+          onTap: (index) => navigationShell.goBranch(index),
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Theme.of(context).colorScheme.primary,
+          unselectedItemColor: Colors.grey,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined),
+              activeIcon: Icon(Icons.home_rounded),
+              label: 'الرئيسية',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.menu_book_outlined),
+              activeIcon: Icon(Icons.menu_book_rounded),
+              label: 'الدروس',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people_alt_outlined),
+              activeIcon: Icon(Icons.people_alt_rounded),
+              label: 'الطلاب',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline_rounded),
+              activeIcon: Icon(Icons.person_rounded),
+              label: 'حساب',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class _StudentShell extends StatelessWidget {
   final StatefulNavigationShell navigationShell;

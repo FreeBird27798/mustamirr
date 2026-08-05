@@ -20,6 +20,18 @@ import '../../features/student/presentation/bloc/lessons/lessons_bloc.dart';
 import '../../features/student/presentation/bloc/notifications/notifications_bloc.dart';
 import '../../features/student/presentation/bloc/student_home/student_home_bloc.dart';
 import '../../features/student/presentation/bloc/subjects/subjects_bloc.dart';
+import '../../features/teacher/data/datasources/teacher_remote_datasource.dart';
+import '../../features/teacher/data/repositories/teacher_repository_impl.dart';
+import '../../features/teacher/domain/repositories/teacher_repository.dart';
+import '../../features/teacher/domain/usecases/add_lesson_usecase.dart';
+import '../../features/teacher/domain/usecases/delete_lesson_usecase.dart';
+import '../../features/teacher/domain/usecases/get_dashboard_stats_usecase.dart';
+import '../../features/teacher/domain/usecases/get_my_lessons_usecase.dart';
+import '../../features/teacher/domain/usecases/get_my_students_usecase.dart';
+import '../../features/teacher/domain/usecases/update_lesson_usecase.dart';
+import '../../features/teacher/presentation/bloc/dashboard/dashboard_bloc.dart';
+import '../../features/teacher/presentation/bloc/students/students_bloc.dart';
+import '../../features/teacher/presentation/bloc/teacher_lessons/teacher_lessons_bloc.dart';
 import '../api/api_client.dart';
 import '../../features/auth/data/datasources/auth_remote_datasource.dart';
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
@@ -127,4 +139,44 @@ Future<void> initDependencies() async {
   // Student - Bloc (Subjects)
   // Reuses GetSubjectsUseCase already registered above (Student — Use cases)
   sl.registerFactory(() => SubjectsBloc(getSubjectsUseCase: sl()));
+
+  // ===== Teacher =====
+
+  // Teacher - Data source
+  sl.registerLazySingleton<TeacherRemoteDataSource>(
+    () => TeacherRemoteDataSourceImpl(),
+  );
+
+  // Teacher - Repository
+  sl.registerLazySingleton<TeacherRepository>(
+    () => TeacherRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  // Teacher - Use cases
+  sl.registerLazySingleton(() => GetDashboardStatsUseCase(sl()));
+  sl.registerLazySingleton(() => GetMyLessonsUseCase(sl()));
+  sl.registerLazySingleton(() => GetMyStudentsUseCase(sl()));
+  sl.registerLazySingleton(() => AddLessonUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateLessonUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteLessonUseCase(sl()));
+
+  // Teacher - Blocs
+  sl.registerFactory(
+    () => DashboardBloc(
+      getDashboardStatsUseCase: sl(),
+      getMyLessonsUseCase: sl(),
+      addLessonUseCase: sl(),
+      updateLessonUseCase: sl(),
+      deleteLessonUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => TeacherLessonsBloc(
+      getMyLessonsUseCase: sl(),
+      deleteLessonUseCase: sl(),
+      addLessonUseCase: sl(),
+      updateLessonUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(() => StudentsBloc(getMyStudentsUseCase: sl()));
 }

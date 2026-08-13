@@ -94,13 +94,13 @@ class TeacherRemoteDataSourceImpl implements TeacherRemoteDataSource {
   @override
   Future<List<TeacherLessonModel>> getMyLessons() async {
     await Future.delayed(_delay);
-    return _lessons;
+    return _lessons.toList(); // fresh copy so BLoC states compare as changed
   }
 
   @override
   Future<List<TeacherStudentModel>> getMyStudents() async {
     await Future.delayed(_delay);
-    return _students;
+    return _students.toList();
   }
 
   @override

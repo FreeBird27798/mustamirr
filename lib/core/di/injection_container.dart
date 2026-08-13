@@ -32,6 +32,30 @@ import '../../features/teacher/domain/usecases/update_lesson_usecase.dart';
 import '../../features/teacher/presentation/bloc/dashboard/dashboard_bloc.dart';
 import '../../features/teacher/presentation/bloc/students/students_bloc.dart';
 import '../../features/teacher/presentation/bloc/teacher_lessons/teacher_lessons_bloc.dart';
+import '../../features/admin/data/datasources/admin_remote_datasource.dart';
+import '../../features/admin/data/repositories/admin_repository_impl.dart';
+import '../../features/admin/domain/repositories/admin_repository.dart';
+import '../../features/admin/domain/usecases/get_admin_stats_usecase.dart';
+import '../../features/admin/domain/usecases/get_users_usecase.dart';
+import '../../features/admin/domain/usecases/toggle_user_active_usecase.dart';
+import '../../features/admin/domain/usecases/delete_user_usecase.dart';
+import '../../features/admin/domain/usecases/get_enrollment_requests_usecase.dart';
+import '../../features/admin/domain/usecases/approve_request_usecase.dart';
+import '../../features/admin/domain/usecases/reject_request_usecase.dart';
+import '../../features/admin/domain/usecases/get_institutions_usecase.dart';
+import '../../features/admin/domain/usecases/add_institution_usecase.dart';
+import '../../features/admin/domain/usecases/delete_institution_usecase.dart';
+import '../../features/admin/domain/usecases/get_admin_subjects_usecase.dart';
+import '../../features/admin/domain/usecases/add_subject_usecase.dart';
+import '../../features/admin/domain/usecases/delete_subject_usecase.dart';
+import '../../features/admin/domain/usecases/get_content_usecase.dart';
+import '../../features/admin/domain/usecases/delete_content_usecase.dart';
+import '../../features/admin/presentation/bloc/admin_dashboard/admin_dashboard_bloc.dart';
+import '../../features/admin/presentation/bloc/users/users_bloc.dart';
+import '../../features/admin/presentation/bloc/enrollment/enrollment_bloc.dart';
+import '../../features/admin/presentation/bloc/institutions/institutions_bloc.dart';
+import '../../features/admin/presentation/bloc/admin_subjects/admin_subjects_bloc.dart';
+import '../../features/admin/presentation/bloc/content/content_bloc.dart';
 import '../api/api_client.dart';
 import '../../features/auth/data/datasources/auth_remote_datasource.dart';
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
@@ -179,4 +203,67 @@ Future<void> initDependencies() async {
     ),
   );
   sl.registerFactory(() => StudentsBloc(getMyStudentsUseCase: sl()));
+
+  // ===== Admin =====
+
+  // Admin - Data source
+  sl.registerLazySingleton<AdminRemoteDataSource>(
+    () => AdminRemoteDataSourceImpl(),
+  );
+
+  // Admin - Repository
+  sl.registerLazySingleton<AdminRepository>(
+    () => AdminRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  // Admin - Use cases
+  sl.registerLazySingleton(() => GetAdminStatsUseCase(sl()));
+  sl.registerLazySingleton(() => GetUsersUseCase(sl()));
+  sl.registerLazySingleton(() => ToggleUserActiveUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteUserUseCase(sl()));
+  sl.registerLazySingleton(() => GetEnrollmentRequestsUseCase(sl()));
+  sl.registerLazySingleton(() => ApproveRequestUseCase(sl()));
+  sl.registerLazySingleton(() => RejectRequestUseCase(sl()));
+  sl.registerLazySingleton(() => GetInstitutionsUseCase(sl()));
+  sl.registerLazySingleton(() => AddInstitutionUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteInstitutionUseCase(sl()));
+  sl.registerLazySingleton(() => GetAdminSubjectsUseCase(sl()));
+  sl.registerLazySingleton(() => AddSubjectUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteSubjectUseCase(sl()));
+  sl.registerLazySingleton(() => GetContentUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteContentUseCase(sl()));
+
+  // Admin - Blocs
+  sl.registerFactory(() => AdminDashboardBloc(getAdminStatsUseCase: sl()));
+  sl.registerFactory(
+    () => UsersBloc(
+      getUsersUseCase: sl(),
+      toggleUserActiveUseCase: sl(),
+      deleteUserUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => EnrollmentBloc(
+      getEnrollmentRequestsUseCase: sl(),
+      approveRequestUseCase: sl(),
+      rejectRequestUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => InstitutionsBloc(
+      getInstitutionsUseCase: sl(),
+      addInstitutionUseCase: sl(),
+      deleteInstitutionUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => AdminSubjectsBloc(
+      getAdminSubjectsUseCase: sl(),
+      addSubjectUseCase: sl(),
+      deleteSubjectUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ContentBloc(getContentUseCase: sl(), deleteContentUseCase: sl()),
+  );
 }

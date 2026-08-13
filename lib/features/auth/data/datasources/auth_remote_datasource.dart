@@ -22,16 +22,32 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required this.sharedPreferences,
   });
 
+  // ⚠️ MOCK auth — replace with real Dio calls in Phase 6.
+  // Fake accounts for testing (all use password: 123456).
+  static const _mockPassword = '123456';
+  static const _mockUsers = {
+    'student@test.com': {'name': 'سعدي حرب', 'role': 'student'},
+    'teacher@test.com': {'name': 'يوسف احمد', 'role': 'teacher'},
+    'admin@test.com': {'name': 'مدير النظام', 'role': 'admin'},
+  };
+
   @override
   Future<UserModel> login({
     required String email,
     required String password,
   }) async {
-    final response = await apiClient.dio.post(
-      '/login',
-      data: {'email': email, 'password': password},
+    await Future.delayed(const Duration(milliseconds: 600));
+    final match = _mockUsers[email.trim().toLowerCase()];
+    if (match == null || password.trim() != _mockPassword) {
+      throw Exception('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+    }
+    final user = UserModel(
+      id: email.hashCode.toString(),
+      name: match['name']!,
+      email: email.trim().toLowerCase(),
+      role: match['role']!,
+      token: 'mock_token_${match['role']}',
     );
-    final user = UserModel.fromJson(response.data['user']);
     await sharedPreferences.setString('auth_token', user.token);
     await sharedPreferences.setString('user_role', user.role);
     return user;
@@ -44,11 +60,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
     required String role,
   }) async {
-    final response = await apiClient.dio.post(
-      '/register',
-      data: {'name': name, 'email': email, 'password': password, 'role': role},
+    await Future.delayed(const Duration(milliseconds: 600));
+    final user = UserModel(
+      id: email.hashCode.toString(),
+      name: name,
+      email: email.trim().toLowerCase(),
+      role: role,
+      token: 'mock_token_$role',
     );
-    final user = UserModel.fromJson(response.data['user']);
     await sharedPreferences.setString('auth_token', user.token);
     await sharedPreferences.setString('user_role', user.role);
     return user;

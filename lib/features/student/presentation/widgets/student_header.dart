@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_router.dart';
+import '../../../../core/utils/coming_soon.dart';
 
 class StudentHeader extends StatelessWidget {
   const StudentHeader({super.key});
@@ -43,7 +44,18 @@ class StudentHeader extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 16),
-            const Icon(Icons.search_rounded, size: 26),
+            Material(
+              color: Colors.transparent,
+              shape: const CircleBorder(),
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                onTap: () => showComingSoon(context),
+                child: const Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Icon(Icons.search_rounded, size: 26),
+                ),
+              ),
+            ),
           ],
         ),
         // TODO: replace with real user name/major once wired to AuthBloc/user profile

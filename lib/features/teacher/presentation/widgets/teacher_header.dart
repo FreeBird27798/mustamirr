@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/coming_soon.dart';
 
 class TeacherHeader extends StatelessWidget {
   final String title;
@@ -12,27 +13,32 @@ class TeacherHeader extends StatelessWidget {
       children: [
         Row(
           children: [
-            // TODO: wire bell to a teacher notifications screen (deferred)
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                const Icon(Icons.notifications_none_rounded, size: 26),
-                Positioned(
-                  top: -2,
-                  right: -2,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
+            GestureDetector(
+              onTap: () => showComingSoon(context),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  const Icon(Icons.notifications_none_rounded, size: 26),
+                  Positioned(
+                    top: -2,
+                    right: -2,
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(width: 16),
-            const Icon(Icons.search_rounded, size: 26),
+            GestureDetector(
+              onTap: () => showComingSoon(context),
+              child: const Icon(Icons.search_rounded, size: 26),
+            ),
           ],
         ),
         // TODO: replace with real teacher name once wired to AuthBloc/user profile

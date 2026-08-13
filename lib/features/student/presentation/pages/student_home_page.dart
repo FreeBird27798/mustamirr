@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_router.dart';
+import '../../../../core/utils/coming_soon.dart';
 import '../../../../core/utils/file_type_style.dart';
 import '../../domain/entities/lesson_entity.dart';
 import '../../domain/entities/subject_entity.dart';
@@ -169,9 +170,7 @@ class _ContinueLessonCard extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: ElevatedButton(
-              onPressed: () {
-                // TODO: navigate to lesson detail/viewer
-              },
+              onPressed: () => showComingSoon(context),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: AppColors.primary,
@@ -201,9 +200,12 @@ class _SectionHeader extends StatelessWidget {
           title,
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
-        const Text(
-          'عرض الكل',
-          style: TextStyle(color: AppColors.glow, fontSize: 13),
+        GestureDetector(
+          onTap: () => showComingSoon(context),
+          child: const Text(
+            'عرض الكل',
+            style: TextStyle(color: AppColors.glow, fontSize: 13),
+          ),
         ),
       ],
     );

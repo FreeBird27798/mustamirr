@@ -19,13 +19,13 @@ import '../../features/teacher/presentation/pages/teacher_students_page.dart';
 import '../../features/teacher/presentation/pages/teacher_profile_page.dart';
 import '../../features/teacher/presentation/pages/manage_lesson_page.dart';
 import '../../features/teacher/domain/entities/teacher_lesson_entity.dart';
-
-class AdminHomePage extends StatelessWidget {
-  const AdminHomePage({super.key});
-  @override
-  Widget build(BuildContext context) =>
-      const Scaffold(body: Center(child: Text('Admin Home')));
-}
+import '../../features/admin/presentation/pages/admin_dashboard_page.dart';
+import '../../features/admin/presentation/pages/admin_users_page.dart';
+import '../../features/admin/presentation/pages/admin_profile_page.dart';
+import '../../features/admin/presentation/pages/admin_enrollment_page.dart';
+import '../../features/admin/presentation/pages/admin_institutions_page.dart';
+import '../../features/admin/presentation/pages/admin_subjects_page.dart';
+import '../../features/admin/presentation/pages/admin_content_page.dart';
 
 // Route names
 class AppRoutes {
@@ -44,6 +44,12 @@ class AppRoutes {
   static const teacherProfile = '/teacher/profile';
   static const teacherManageLesson = '/teacher/manage-lesson';
   static const adminHome = '/admin';
+  static const adminUsers = '/admin/users';
+  static const adminSubjects = '/admin/subjects';
+  static const adminProfile = '/admin/profile';
+  static const adminEnrollment = '/admin/enrollment';
+  static const adminInstitutions = '/admin/institutions';
+  static const adminContent = '/admin/content';
 
   static const lessonsRoute = '/student/lessons/:subjectId';
   static String lessonsPath(int subjectId) => '/student/lessons/$subjectId';
@@ -203,8 +209,55 @@ final GoRouter appRouter = GoRouter(
           ManageLessonPage(lesson: state.extra as TeacherLessonEntity?),
     ),
     GoRoute(
-      path: AppRoutes.adminHome,
-      builder: (context, _) => const AdminHomePage(),
+      path: AppRoutes.adminEnrollment,
+      builder: (context, _) => const AdminEnrollmentPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.adminInstitutions,
+      builder: (context, _) => const AdminInstitutionsPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.adminContent,
+      builder: (context, _) => const AdminContentPage(),
+    ),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return _AdminShell(navigationShell: navigationShell);
+      },
+      branches: [
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.adminHome,
+              builder: (context, _) => const AdminDashboardPage(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.adminSubjects,
+              builder: (context, _) => const AdminSubjectsPage(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.adminUsers,
+              builder: (context, _) => const AdminUsersPage(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.adminProfile,
+              builder: (context, _) => const AdminProfilePage(),
+            ),
+          ],
+        ),
+      ],
     ),
   ],
 );
@@ -240,6 +293,50 @@ class _TeacherShell extends StatelessWidget {
               icon: Icon(Icons.people_alt_outlined),
               activeIcon: Icon(Icons.people_alt_rounded),
               label: 'الطلاب',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline_rounded),
+              activeIcon: Icon(Icons.person_rounded),
+              label: 'حساب',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AdminShell extends StatelessWidget {
+  final StatefulNavigationShell navigationShell;
+  const _AdminShell({required this.navigationShell});
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        body: navigationShell,
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: navigationShell.currentIndex,
+          onTap: (index) => navigationShell.goBranch(index),
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Theme.of(context).colorScheme.primary,
+          unselectedItemColor: Colors.grey,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined),
+              activeIcon: Icon(Icons.home_rounded),
+              label: 'الرئيسية',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.menu_book_outlined),
+              activeIcon: Icon(Icons.menu_book_rounded),
+              label: 'إدارة المواد',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people_alt_outlined),
+              activeIcon: Icon(Icons.people_alt_rounded),
+              label: 'إدارة المستخدمين',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outline_rounded),

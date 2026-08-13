@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_router.dart';
+import '../../../../core/utils/coming_soon.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/bloc/auth_event.dart';
 import '../../../auth/presentation/bloc/auth_state.dart';
@@ -179,9 +180,7 @@ class _SettingsTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: () {
-            // TODO: navigate to the corresponding settings screen once built
-          },
+          onTap: () => showComingSoon(context),
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Row(

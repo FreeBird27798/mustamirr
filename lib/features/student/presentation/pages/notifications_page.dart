@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/coming_soon.dart';
 import '../../domain/entities/notification_entity.dart';
 import '../bloc/notifications/notifications_bloc.dart';
 import '../bloc/notifications/notifications_event.dart';
@@ -94,7 +95,9 @@ class _NotificationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () => showComingSoon(context),
+      child: Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: notification.isRead
@@ -143,6 +146,7 @@ class _NotificationCard extends StatelessWidget {
           const SizedBox(width: 12),
           Icon(_typeIcon, color: AppColors.primary),
         ],
+      ),
       ),
     );
   }

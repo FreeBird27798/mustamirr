@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/coming_soon.dart';
 import '../../../../core/utils/file_type_style.dart';
 import '../../domain/entities/lesson_entity.dart';
 import '../bloc/downloads/downloads_bloc.dart';
@@ -81,9 +82,7 @@ class _EmptyDownloads extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {
-              // TODO: navigate to subjects/lessons browsing screen
-            },
+            onPressed: () => showComingSoon(context),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
@@ -150,9 +149,7 @@ class _DownloadedLessonCard extends StatelessWidget {
             icon: const Icon(Icons.delete_outline_rounded, color: Colors.red),
           ),
           IconButton(
-            onPressed: () {
-              // TODO: open lesson viewer/preview screen
-            },
+            onPressed: () => showComingSoon(context),
             icon: const Icon(
               Icons.visibility_outlined,
               color: AppColors.glow,

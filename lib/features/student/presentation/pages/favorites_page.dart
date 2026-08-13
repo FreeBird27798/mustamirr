@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/coming_soon.dart';
 import '../../../../core/utils/file_type_style.dart';
 import '../../domain/entities/lesson_entity.dart';
 import '../bloc/favorites/favorites_bloc.dart';
@@ -77,9 +78,7 @@ class _EmptyFavorites extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {
-              // TODO: navigate to subjects/lessons browsing screen
-            },
+            onPressed: () => showComingSoon(context),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,

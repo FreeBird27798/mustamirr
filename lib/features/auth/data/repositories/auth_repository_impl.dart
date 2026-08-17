@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
+import '../../../../core/errors/error_mapper.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -21,15 +21,8 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
       );
       return Right(user);
-    } on DioException catch (e) {
-      if (e.response?.statusCode == 401) {
-        return Left(
-          UnauthorizedFailure(e.response?.data['message'] ?? 'Unauthorized'),
-        );
-      }
-      return Left(ServerFailure(e.response?.data['message'] ?? 'Server error'));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -48,10 +41,8 @@ class AuthRepositoryImpl implements AuthRepository {
         role: role,
       );
       return Right(user);
-    } on DioException catch (e) {
-      return Left(ServerFailure(e.response?.data['message'] ?? 'Server error'));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -60,10 +51,8 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await remoteDataSource.logout();
       return const Right(null);
-    } on DioException catch (e) {
-      return Left(ServerFailure(e.response?.data['message'] ?? 'Server error'));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 }

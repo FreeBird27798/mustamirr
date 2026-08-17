@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/api/api_client.dart';
+import '../../../../core/errors/exceptions.dart';
 import '../models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
@@ -39,7 +40,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     await Future.delayed(const Duration(milliseconds: 600));
     final match = _mockUsers[email.trim().toLowerCase()];
     if (match == null || password.trim() != _mockPassword) {
-      throw Exception('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+      throw const ServerException('البريد الإلكتروني أو كلمة المرور غير صحيحة');
     }
     final user = UserModel(
       id: email.hashCode.toString(),

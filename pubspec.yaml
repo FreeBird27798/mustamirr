@@ -49,7 +49,10 @@ dependencies:
   path_provider: ^2.1.2
 
   # File handling
-  flutter_downloader: ^1.11.6
+  # NOTE: flutter_downloader removed for now — it pulls in Android WorkManager
+  # which crashes in release builds (WorkDatabase init) and we don't use it yet
+  # (downloads are mocked). Re-add WITH proper Android/ProGuard setup when we
+  # wire real file downloads.
   open_filex: ^4.3.4
 
   # UI

@@ -63,6 +63,8 @@ import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/usecases/login_usecase.dart';
 import '../../features/auth/domain/usecases/logout_usecase.dart';
 import '../../features/auth/domain/usecases/register_usecase.dart';
+import '../../features/auth/domain/usecases/resend_verification_usecase.dart';
+import '../../features/auth/domain/usecases/verify_email_usecase.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
 
 final sl = GetIt.instance;
@@ -89,6 +91,8 @@ Future<void> initDependencies() async {
   // Auth — Use cases
   sl.registerLazySingleton(() => LoginUseCase(sl()));
   sl.registerLazySingleton(() => RegisterUseCase(sl()));
+  sl.registerLazySingleton(() => VerifyEmailUseCase(sl()));
+  sl.registerLazySingleton(() => ResendVerificationUseCase(sl()));
   sl.registerLazySingleton(() => LogoutUseCase(sl()));
 
   // Auth — Bloc
@@ -96,6 +100,8 @@ Future<void> initDependencies() async {
     () => AuthBloc(
       loginUseCase: sl(),
       registerUseCase: sl(),
+      verifyEmailUseCase: sl(),
+      resendVerificationUseCase: sl(),
       logoutUseCase: sl(),
     ),
   );

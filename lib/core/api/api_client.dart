@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String baseUrl = 'https://your-laravel-api.com/api';
+const String baseUrl = 'https://reg-gaza.com/api';
 
 class ApiClient {
   final Dio _dio;

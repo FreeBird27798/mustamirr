@@ -9,23 +9,17 @@ class UserModel extends UserEntity {
     required super.token,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
+  /// Builds a [UserModel] from the `data` object of a successful auth
+  /// response, e.g. `/auth/login` returns:
+  /// `{ "data": { "user": { id, name, email, role, ... }, "token": "..." } }`.
+  factory UserModel.fromAuthData(Map<String, dynamic> data) {
+    final user = (data['user'] as Map).cast<String, dynamic>();
     return UserModel(
-      id: json['id'].toString(),
-      name: json['name'],
-      email: json['email'],
-      role: json['role'],
-      token: json['token'],
+      id: user['id'].toString(),
+      name: (user['name'] ?? '') as String,
+      email: (user['email'] ?? '') as String,
+      role: (user['role'] ?? '') as String,
+      token: (data['token'] ?? '') as String,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'email': email,
-      'role': role,
-      'token': token,
-    };
   }
 }

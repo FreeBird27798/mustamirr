@@ -55,13 +55,24 @@ Failure _mapStatusCode(DioException error) {
   return ServerFailure(serverMessage ?? 'حدث خطأ. حاول مرة أخرى.');
 }
 
-/// Laravel usually returns `{ "message": "..." }`, sometimes with an
-/// `errors` map for validation. Pull the most useful string if present.
+/// Our backend wraps errors as `{ "error": { "code": "...", "message": "..." },
+/// "errors": { ... } }`. Plain Laravel sometimes returns a top-level
+/// `{ "message": "..." }`. Pull the most useful string, checking the nested
+/// shape first.
 String? _extractServerMessage(dynamic data) {
   if (data is Map) {
+    // Nested error object: { "error": { "code", "message" } }
+    final error = data['error'];
+    if (error is Map) {
+      final msg = error['message'];
+      if (msg is String && msg.isNotEmpty) return msg;
+    }
+
+    // Top-level message (plain Laravel / success envelope)
     final message = data['message'];
     if (message is String && message.isNotEmpty) return message;
 
+    // Field validation errors: { "errors": { "email": ["..."] } }
     final errors = data['errors'];
     if (errors is Map && errors.isNotEmpty) {
       final first = errors.values.first;

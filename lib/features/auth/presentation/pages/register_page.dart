@@ -22,6 +22,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -32,6 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void dispose() {
     _nameController.dispose();
+    _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -44,7 +46,9 @@ class _RegisterPageState extends State<RegisterPage> {
         RegisterEvent(
           name: _nameController.text.trim(),
           email: _emailController.text.trim(),
+          username: _usernameController.text.trim(),
           password: _passwordController.text.trim(),
+          passwordConfirmation: _confirmPasswordController.text.trim(),
           role: _selectedRole,
         ),
       );
@@ -57,11 +61,9 @@ class _RegisterPageState extends State<RegisterPage> {
       backgroundColor: Colors.white,
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is AuthSuccess) {
-            final role = state.user.role;
-            if (role == 'student') context.go(AppRoutes.studentHome);
-            if (role == 'teacher') context.go(AppRoutes.teacherHome);
-            if (role == 'admin') context.go(AppRoutes.adminHome);
+          if (state is RegistrationSuccess) {
+            // Account created — move to OTP verification, carrying the email.
+            context.push(AppRoutes.verifyEmail, extra: state.email);
           }
           if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -123,6 +125,27 @@ class _RegisterPageState extends State<RegisterPage> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'الرجاء إدخال الاسم الكامل';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  // Username
+                  const Text(
+                    'اسم المستخدم',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(height: 8),
+                  AuthTextField(
+                    controller: _usernameController,
+                    hintText: 'sadi_harb',
+                    suffixIcon: Icons.alternate_email,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'الرجاء إدخال اسم المستخدم';
+                      }
+                      if (value.trim().length < 3) {
+                        return 'اسم المستخدم قصير جدًا';
                       }
                       return null;
                     },

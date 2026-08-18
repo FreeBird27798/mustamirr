@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_router.dart';
 import '../../../../core/utils/coming_soon.dart';
+import '../../../auth/presentation/cubit/session_cubit.dart';
 
 class StudentHeader extends StatelessWidget {
   const StudentHeader({super.key});
@@ -58,15 +60,14 @@ class StudentHeader extends StatelessWidget {
             ),
           ],
         ),
-        // TODO: replace with real user name/major once wired to AuthBloc/user profile
-        const Column(
+        Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              'الطالب',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              context.watch<SessionCubit>().state?.name ?? 'الطالب',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            Text(
+            const Text(
               'مرحبا بعودتك',
               style: TextStyle(fontSize: 13, color: AppColors.textGrey),
             ),

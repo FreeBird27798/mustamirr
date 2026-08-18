@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/coming_soon.dart';
+import '../../../auth/presentation/cubit/session_cubit.dart';
 
 class TeacherHeader extends StatelessWidget {
   final String title;
@@ -41,7 +43,6 @@ class TeacherHeader extends StatelessWidget {
             ),
           ],
         ),
-        // TODO: replace with real teacher name once wired to AuthBloc/user profile
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -49,9 +50,9 @@ class TeacherHeader extends StatelessWidget {
               title,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const Text(
-              'مرحبا. يوسف احمد',
-              style: TextStyle(fontSize: 13, color: AppColors.textGrey),
+            Text(
+              'مرحبا. ${context.watch<SessionCubit>().state?.name ?? ''}',
+              style: const TextStyle(fontSize: 13, color: AppColors.textGrey),
             ),
           ],
         ),

@@ -8,6 +8,7 @@ import '../../../../core/utils/coming_soon.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/bloc/auth_event.dart';
 import '../../../auth/presentation/bloc/auth_state.dart';
+import '../../../auth/presentation/cubit/session_cubit.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -19,6 +20,7 @@ class ProfilePage extends StatelessWidget {
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is LogoutSuccess) {
+            context.read<SessionCubit>().clear();
             context.go(AppRoutes.login);
           }
           if (state is AuthFailure) {
@@ -133,21 +135,20 @@ class _ProfileCard extends StatelessWidget {
             child: Icon(Icons.person_rounded, color: Colors.white, size: 32),
           ),
           const SizedBox(width: 12),
-          // TODO: replace with real user name/role once wired to AuthBloc/user profile
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'الطالب',
-                  style: TextStyle(
+                  context.watch<SessionCubit>().state?.name ?? 'الطالب',
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 2),
-                Text(
+                const SizedBox(height: 2),
+                const Text(
                   'طالب',
                   style: TextStyle(color: Colors.white70, fontSize: 13),
                 ),

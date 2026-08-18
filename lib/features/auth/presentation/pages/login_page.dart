@@ -9,6 +9,7 @@ import '../../../../core/utils/app_router.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
+import '../cubit/session_cubit.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/auth_button.dart';
 
@@ -81,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
+            context.read<SessionCubit>().setUser(state.user);
             final role = state.user.role;
             if (role == 'student') context.go(AppRoutes.studentHome);
             if (role == 'teacher') context.go(AppRoutes.teacherHome);

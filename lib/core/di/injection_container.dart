@@ -66,6 +66,7 @@ import '../../features/auth/domain/usecases/register_usecase.dart';
 import '../../features/auth/domain/usecases/resend_verification_usecase.dart';
 import '../../features/auth/domain/usecases/verify_email_usecase.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../../features/auth/presentation/cubit/session_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -105,6 +106,9 @@ Future<void> initDependencies() async {
       logoutUseCase: sl(),
     ),
   );
+
+  // Auth — Session (app-wide current user)
+  sl.registerLazySingleton(() => SessionCubit(sl()));
 
   // Student — Data sources
   sl.registerLazySingleton<StudentRemoteDataSource>(

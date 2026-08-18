@@ -22,4 +22,25 @@ class UserModel extends UserEntity {
       token: (data['token'] ?? '') as String,
     );
   }
+
+  /// Flat shape used to cache the signed-in user locally (SharedPreferences),
+  /// so the session survives app restarts. Not the API shape — see
+  /// [UserModel.fromAuthData] for that.
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: (json['id'] ?? '') as String,
+      name: (json['name'] ?? '') as String,
+      email: (json['email'] ?? '') as String,
+      role: (json['role'] ?? '') as String,
+      token: (json['token'] ?? '') as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'email': email,
+    'role': role,
+    'token': token,
+  };
 }

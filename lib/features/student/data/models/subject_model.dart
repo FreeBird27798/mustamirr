@@ -10,8 +10,8 @@ class SubjectModel extends SubjectEntity {
   factory SubjectModel.fromJson(Map<String, dynamic> json) {
     return SubjectModel(
       id: json['id'] as int,
-      name: json['name'] as String,
-      lessonCount: json['lesson_count'] as int,
+      name: (json['title'] ?? json['name'] ?? '') as String,
+      lessonCount: (json['lessons_count'] as num?)?.toInt() ?? 0,
     );
   }
 }

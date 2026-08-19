@@ -16,20 +16,34 @@ class LessonModel extends LessonEntity {
     required super.fileUrl,
   });
 
+  /// Handles both the list shape (favorites/downloads/subject lessons) and the
+  /// detail shape (`/student/lessons/<id>`), where instructor/subject are nested
+  /// objects and extra fields (description, file_path) appear. Missing fields
+  /// fall back to sensible defaults since list responses omit some of them.
   factory LessonModel.fromJson(Map<String, dynamic> json) {
+    final instructor = json['instructor'];
+    final subject = json['subject'];
     return LessonModel(
       id: json['id'] as int,
-      title: json['title'] as String,
-      teacherName: json['teacher_name'] as String,
-      subjectName: json['subject_name'] as String,
-      fileType: json['file_type'] as String,
-      rating: (json['rating'] as num).toDouble(),
-      pageCount: json['page_count'] as int,
-      date: json['date'] as String,
-      isFavorite: json['is_favorite'] as bool,
-      isDownloaded: json['is_downloaded'] as bool,
-      description: json['description'] as String,
-      fileUrl: json['file_url'] as String,
+      title: (json['title'] ?? '') as String,
+      teacherName:
+          (json['instructor_name'] ??
+                  (instructor is Map ? instructor['name'] : null) ??
+                  '')
+              as String,
+      subjectName:
+          (subject is Map
+                  ? (subject['title'] ?? '')
+                  : (json['subject_name'] ?? ''))
+              as String,
+      fileType: (json['content_type'] ?? '') as String,
+      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
+      pageCount: (json['page_count'] as num?)?.toInt() ?? 0,
+      date: (json['published_at'] ?? '') as String,
+      isFavorite: (json['is_favorite'] as bool?) ?? false,
+      isDownloaded: json['downloaded_at'] != null,
+      description: (json['description'] ?? '') as String,
+      fileUrl: (json['file_path'] ?? json['file_url'] ?? '') as String,
     );
   }
 

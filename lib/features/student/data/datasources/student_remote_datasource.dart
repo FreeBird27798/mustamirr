@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import '../../../../core/api/api_client.dart';
 import '../models/lesson_model.dart';
 import '../models/notification_model.dart';
 import '../models/subject_model.dart';
@@ -15,189 +17,69 @@ abstract class StudentRemoteDataSource {
 }
 
 class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
-  static const _delay = Duration(milliseconds: 600);
+  final ApiClient apiClient;
 
-  LessonModel _mockLesson({
-    required int id,
-    required String title,
-    required String subjectName,
-    String teacherName = 'أ. محمد سالم',
-    String fileType = 'pdf',
-    double rating = 4.0,
-    int pageCount = 10,
-    String date = '2026-06-01',
-    bool isFavorite = false,
-    bool isDownloaded = false,
-    String description = 'وصف الدرس',
-    String fileUrl = 'https://example.com/file.pdf',
-  }) {
-    return LessonModel(
-      id: id,
-      title: title,
-      teacherName: teacherName,
-      subjectName: subjectName,
-      fileType: fileType,
-      rating: rating,
-      pageCount: pageCount,
-      date: date,
-      isFavorite: isFavorite,
-      isDownloaded: isDownloaded,
-      description: description,
-      fileUrl: fileUrl,
-    );
-  }
+  StudentRemoteDataSourceImpl({required this.apiClient});
 
-  late final List<LessonModel> _lessons;
-  final List<SubjectModel> _subjects = [
-    const SubjectModel(id: 1, name: 'رياضيات', lessonCount: 2),
-    const SubjectModel(id: 2, name: 'علوم', lessonCount: 1),
-    const SubjectModel(id: 3, name: 'لغة عربية', lessonCount: 2),
-    const SubjectModel(id: 4, name: 'لغة إنجليزية', lessonCount: 1),
-  ];
+  Dio get _dio => apiClient.dio;
 
-  StudentRemoteDataSourceImpl() {
-    _lessons = [
-      _mockLesson(
-        id: 1,
-        subjectName: 'رياضيات',
-        title: 'مقدمة في التفاضل والتكامل',
-        isFavorite: false,
-        isDownloaded: true,
-      ),
-      _mockLesson(
-        id: 2,
-        subjectName: 'رياضيات',
-        title: 'الجبر الخطي',
-        fileType: 'video',
-        isFavorite: true,
-      ),
-      _mockLesson(
-        id: 3,
-        subjectName: 'علوم',
-        title: 'مقدمة في الفيزياء',
-        fileType: 'word',
-        isFavorite: false,
-      ),
-      _mockLesson(
-        id: 4,
-        subjectName: 'لغة عربية',
-        title: 'النحو والصرف',
-        isFavorite: true,
-        isDownloaded: true,
-      ),
-      _mockLesson(
-        id: 5,
-        subjectName: 'لغة عربية',
-        title: 'الأدب العربي',
-        fileType: 'doc',
-        isFavorite: false,
-      ),
-      _mockLesson(
-        id: 6,
-        subjectName: 'لغة إنجليزية',
-        title: 'قواعد اللغة الإنجليزية',
-        isFavorite: false,
-        isDownloaded: true,
-      ),
-    ];
-  }
-
-  final List<NotificationModel> _notifications = [
-    const NotificationModel(
-      id: 1,
-      title: 'درس جديد متاح',
-      body: 'تم إضافة درس جديد في مادة الرياضيات.',
-      type: 'info',
-      isRead: false,
-      createdAt: '2026-06-01T10:00:00Z',
-    ),
-    const NotificationModel(
-      id: 2,
-      title: 'تحديث في الدرس',
-      body: 'تم تحديث محتوى درس الجبر الخطي.',
-      type: 'update',
-      isRead: true,
-      createdAt: '2026-06-02T12:30:00Z',
-    ),
-    const NotificationModel(
-      id: 3,
-      title: 'تنبيه مهم',
-      body: 'يرجى مراجعة الدرس الأخير قبل الامتحان.',
-      type: 'alert',
-      isRead: false,
-      createdAt: '2026-06-03T15:45:00Z',
-    ),
-  ];
-
-  @override
-  Future<List<SubjectModel>> getSubjects() async {
-    await Future.delayed(_delay);
-    return _subjects;
-  }
-
-  @override
-  Future<List<LessonModel>> getRecentLessons() async {
-    await Future.delayed(_delay);
-    // TODO: Return the most recent lessons based on date or other criteria
-    return _lessons.take(5).toList();
-  }
-
-  @override
-  Future<List<LessonModel>> getLessons(int subjectId) async {
-    await Future.delayed(_delay);
-    final subjectName = _subjects.firstWhere((s) => s.id == subjectId).name;
-    return _lessons
-        .where((lesson) => lesson.subjectName == subjectName)
+  List<Map<String, dynamic>> _asList(dynamic data) {
+    return (data as List)
+        .map((e) => (e as Map).cast<String, dynamic>())
         .toList();
   }
 
   @override
+  Future<List<SubjectModel>> getSubjects() async {
+    final res = await _dio.get('/student/subjects');
+    return _asList(res.data['data']).map(SubjectModel.fromJson).toList();
+  }
+
+  @override
+  Future<List<LessonModel>> getRecentLessons() async {
+    // NOTE: recent lessons live in /student/dashboard, which currently returns
+    // a 500 on the backend while affiliation is pending. Returns empty until
+    // the backend fixes the dashboard query.
+    return [];
+  }
+
+  @override
+  Future<List<LessonModel>> getLessons(int subjectId) async {
+    final res = await _dio.get('/student/subjects/$subjectId/lessons');
+    return _asList(res.data['data']).map(LessonModel.fromJson).toList();
+  }
+
+  @override
   Future<List<LessonModel>> getFavorites() async {
-    await Future.delayed(_delay);
-    return _lessons.where((lesson) => lesson.isFavorite).toList();
+    final res = await _dio.get('/student/favorites');
+    return _asList(res.data['data']).map(LessonModel.fromJson).toList();
   }
 
   @override
   Future<List<LessonModel>> getDownloads() async {
-    await Future.delayed(_delay);
-    return _lessons.where((lesson) => lesson.isDownloaded).toList();
+    // Shape: { data: { storage: {...}, items: [...] } }
+    final res = await _dio.get('/student/downloads');
+    return _asList(res.data['data']['items']).map(LessonModel.fromJson).toList();
   }
 
   @override
   Future<List<NotificationModel>> getNotifications() async {
-    await Future.delayed(_delay);
-    return _notifications;
+    final res = await _dio.get('/notifications');
+    return _asList(res.data['data']).map(NotificationModel.fromJson).toList();
   }
 
   @override
   Future<void> toggleFavorite(int lessonId) async {
-    await Future.delayed(_delay);
-    final index = _lessons.indexWhere((lesson) => lesson.id == lessonId);
-    if (index == -1) {
-      throw Exception('Lesson with id $lessonId not found');
-    }
-    _lessons[index] = _lessons[index].copyWith(
-      isFavorite: !_lessons[index].isFavorite,
-    );
+    await _dio.post('/student/favorites/$lessonId/toggle');
   }
 
   @override
   Future<void> downloadLesson(int lessonId) async {
-    await Future.delayed(_delay);
-    final index = _lessons.indexWhere((lesson) => lesson.id == lessonId);
-    if (index == -1) {
-      throw Exception('Lesson with id $lessonId not found');
-    }
-    _lessons[index] = _lessons[index].copyWith(isDownloaded: true);
+    await _dio.post('/student/downloads/$lessonId');
   }
 
   @override
   Future<void> deleteDownload(int lessonId) async {
-    await Future.delayed(_delay);
-    final index = _lessons.indexWhere((lesson) => lesson.id == lessonId);
-    if (index == -1) {
-      throw Exception('Lesson with id $lessonId not found');
-    }
-    _lessons[index] = _lessons[index].copyWith(isDownloaded: false);
+    await _dio.delete('/student/downloads/$lessonId');
   }
 }

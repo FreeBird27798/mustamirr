@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import '../../../../core/errors/error_mapper.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/lesson_entity.dart';
 import '../../domain/entities/notification_entity.dart';
@@ -17,7 +18,7 @@ class StudentRepositoryImpl implements StudentRepository {
       final subjects = await remoteDataSource.getSubjects();
       return Right(subjects);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -27,7 +28,7 @@ class StudentRepositoryImpl implements StudentRepository {
       final recentLessons = await remoteDataSource.getRecentLessons();
       return Right(recentLessons);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -37,7 +38,7 @@ class StudentRepositoryImpl implements StudentRepository {
       final lessons = await remoteDataSource.getLessons(subjectId);
       return Right(lessons);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -47,7 +48,7 @@ class StudentRepositoryImpl implements StudentRepository {
       final favorites = await remoteDataSource.getFavorites();
       return Right(favorites);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -57,7 +58,7 @@ class StudentRepositoryImpl implements StudentRepository {
       final downloads = await remoteDataSource.getDownloads();
       return Right(downloads);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -67,7 +68,7 @@ class StudentRepositoryImpl implements StudentRepository {
       final notifications = await remoteDataSource.getNotifications();
       return Right(notifications);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -77,7 +78,7 @@ class StudentRepositoryImpl implements StudentRepository {
       await remoteDataSource.toggleFavorite(lessonId);
       return const Right(unit);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -87,7 +88,7 @@ class StudentRepositoryImpl implements StudentRepository {
       await remoteDataSource.downloadLesson(lessonId);
       return const Right(unit);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -97,7 +98,7 @@ class StudentRepositoryImpl implements StudentRepository {
       await remoteDataSource.deleteDownload(lessonId);
       return const Right(unit);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 }

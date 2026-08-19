@@ -112,7 +112,7 @@ Future<void> initDependencies() async {
 
   // Student — Data sources
   sl.registerLazySingleton<StudentRemoteDataSource>(
-    () => StudentRemoteDataSourceImpl(),
+    () => StudentRemoteDataSourceImpl(apiClient: sl()),
   );
 
   // Student — Repository

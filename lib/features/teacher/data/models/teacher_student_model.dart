@@ -9,9 +9,14 @@ class TeacherStudentModel extends TeacherStudentEntity {
 
   factory TeacherStudentModel.fromJson(Map<String, dynamic> json) {
     return TeacherStudentModel(
-      id: json['id'] as int,
-      name: json['name'] as String,
-      grade: json['grade'] as String,
+      id: (json['id'] as num?)?.toInt() ?? 0,
+      name: (json['name'] ?? '') as String,
+      grade:
+          (json['grade'] ??
+                  json['academic_level_name'] ??
+                  json['track_title'] ??
+                  '')
+              as String,
     );
   }
 }

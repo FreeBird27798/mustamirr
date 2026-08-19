@@ -8,12 +8,22 @@ class TeacherStatsModel extends TeacherStatsEntity {
     required super.downloadsCount,
   });
 
+  /// From `/teacher/dashboard` → `data.stats`:
+  /// `{ tracks_count, lessons_count, students_count, downloads_count }`.
   factory TeacherStatsModel.fromJson(Map<String, dynamic> json) {
+    int intOf(List<String> keys) {
+      for (final k in keys) {
+        final v = json[k];
+        if (v is num) return v.toInt();
+      }
+      return 0;
+    }
+
     return TeacherStatsModel(
-      studentsCount: json['students_count'] as int,
-      lessonsCount: json['lessons_count'] as int,
-      coursesCount: json['courses_count'] as int,
-      downloadsCount: json['downloads_count'] as int,
+      studentsCount: intOf(['students_count']),
+      lessonsCount: intOf(['lessons_count']),
+      coursesCount: intOf(['tracks_count', 'courses_count']),
+      downloadsCount: intOf(['downloads_count']),
     );
   }
 }

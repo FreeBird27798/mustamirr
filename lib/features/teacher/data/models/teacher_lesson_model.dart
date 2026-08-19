@@ -13,18 +13,33 @@ class TeacherLessonModel extends TeacherLessonEntity {
     required super.contents,
   });
 
+  /// The teacher's own lesson. Robust to missing fields since the list endpoint
+  /// returns summary items (and `subject` may be a nested object). `contents`
+  /// defaults to empty when the list shape omits it.
   factory TeacherLessonModel.fromJson(Map<String, dynamic> json) {
+    final subject = json['subject'];
+    final contentsRaw = json['contents'];
     return TeacherLessonModel(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      description: json['description'] as String,
-      subject: json['subject'] as String,
-      grade: json['grade'] as String,
-      fileType: json['file_type'] as String,
-      fileSizeMb: (json['file_size_mb'] as num).toDouble(),
-      contents: (json['contents'] as List<dynamic>)
-          .map((e) => LessonContentModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      id: (json['id'] as num?)?.toInt() ?? 0,
+      title: (json['title'] ?? '') as String,
+      description: (json['description'] ?? '') as String,
+      subject:
+          (subject is Map
+                  ? (subject['title'] ?? '')
+                  : (subject ?? json['subject_name'] ?? ''))
+              as String,
+      grade: (json['grade'] ?? json['academic_level_name'] ?? '') as String,
+      fileType: (json['content_type'] ?? json['file_type'] ?? '') as String,
+      fileSizeMb: (json['file_size_mb'] as num?)?.toDouble() ?? 0.0,
+      contents: contentsRaw is List
+          ? contentsRaw
+                .map(
+                  (e) => LessonContentModel.fromJson(
+                    (e as Map).cast<String, dynamic>(),
+                  ),
+                )
+                .toList()
+          : const [],
     );
   }
 

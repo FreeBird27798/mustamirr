@@ -69,8 +69,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  bloc_test: ^9.1.5  
+  bloc_test: ^9.1.5
   mocktail: ^1.0.3
+  # App icon + native splash generators (dev-time tools)
+  flutter_launcher_icons: ^0.14.1
+  flutter_native_splash: ^2.4.1
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -118,3 +121,23 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# ===== App launcher icon (run: dart run flutter_launcher_icons) =====
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true
+  adaptive_icon_background: "#1E5AA8"
+  adaptive_icon_foreground: "assets/icons/app_icon.png"
+
+# ===== Native splash screen (run: dart run flutter_native_splash:create) =====
+flutter_native_splash:
+  color: "#1E5AA8"
+  image: "assets/icons/app_icon.png"
+  android_12:
+    color: "#1E5AA8"
+    image: "assets/icons/app_icon.png"
+  android: true
+  ios: true

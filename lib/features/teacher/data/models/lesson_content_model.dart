@@ -5,8 +5,8 @@ class LessonContentModel extends LessonContentEntity {
 
   factory LessonContentModel.fromJson(Map<String, dynamic> json) {
     return LessonContentModel(
-      title: json['title'] as String,
-      body: json['body'] as String,
+      title: (json['title'] ?? '') as String,
+      body: (json['body'] ?? json['content'] ?? '') as String,
     );
   }
 

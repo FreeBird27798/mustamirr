@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 
+import '../../../../core/errors/error_mapper.dart';
 import '../../../../core/errors/failures.dart';
 import '../../domain/entities/teacher_lesson_entity.dart';
 import '../../domain/entities/teacher_stats_entity.dart';
@@ -20,7 +21,7 @@ class TeacherRepositoryImpl implements TeacherRepository {
       final stats = await remoteDataSource.getDashboardStats();
       return Right(stats);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -30,7 +31,7 @@ class TeacherRepositoryImpl implements TeacherRepository {
       final lessons = await remoteDataSource.getMyLessons();
       return Right(lessons);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -40,7 +41,7 @@ class TeacherRepositoryImpl implements TeacherRepository {
       final students = await remoteDataSource.getMyStudents();
       return Right(students);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -50,7 +51,7 @@ class TeacherRepositoryImpl implements TeacherRepository {
       await remoteDataSource.addLesson(_toModel(lesson));
       return const Right(unit);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -60,7 +61,7 @@ class TeacherRepositoryImpl implements TeacherRepository {
       await remoteDataSource.updateLesson(_toModel(lesson));
       return const Right(unit);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 
@@ -70,7 +71,7 @@ class TeacherRepositoryImpl implements TeacherRepository {
       await remoteDataSource.deleteLesson(lessonId);
       return const Right(unit);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(mapErrorToFailure(e));
     }
   }
 

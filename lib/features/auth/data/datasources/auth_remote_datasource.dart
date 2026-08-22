@@ -35,11 +35,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     // an email address or a username.
     final response = await apiClient.dio.post(
       '/auth/login',
-      data: {
-        'login': email.trim(),
-        'password': password,
-        'remember': true,
-      },
+      data: {'login': email.trim(), 'password': password, 'remember': true},
     );
 
     final data = (response.data['data'] as Map).cast<String, dynamic>();
@@ -73,10 +69,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> verifyEmail({
-    required String email,
-    required String otp,
-  }) async {
+  Future<void> verifyEmail({required String email, required String otp}) async {
     await apiClient.dio.post(
       '/auth/verify-email',
       data: {'email': email.trim(), 'otp': otp.trim()},

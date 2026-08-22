@@ -251,10 +251,7 @@ class _ManageLessonPageState extends State<ManageLessonPage> {
                   ),
                 ],
               ),
-              _Field(
-                controller: _contentControllers[i],
-                hint: 'اكتب المحتوى',
-              ),
+              _Field(controller: _contentControllers[i], hint: 'اكتب المحتوى'),
             ],
           ),
         ),

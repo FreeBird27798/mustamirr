@@ -18,6 +18,11 @@ class AdminSubjectModel extends AdminSubjectEntity {
   }
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'name': name, 'grade': grade, 'lessons_count': lessonsCount};
+    return {
+      'id': id,
+      'name': name,
+      'grade': grade,
+      'lessons_count': lessonsCount,
+    };
   }
 }

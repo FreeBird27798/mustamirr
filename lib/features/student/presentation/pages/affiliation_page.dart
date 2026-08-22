@@ -3,15 +3,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/utils/app_colors.dart';
+import '../../../teacher/domain/repositories/teacher_repository.dart';
+import '../../domain/repositories/affiliation_repository.dart';
+import '../../domain/repositories/student_repository.dart';
 import '../cubit/affiliation_cubit.dart';
 
 class AffiliationPage extends StatelessWidget {
-  const AffiliationPage({super.key});
+  /// Same screen for both roles — only the repository (endpoint prefix) differs.
+  final bool forTeacher;
+  const AffiliationPage({super.key, this.forTeacher = false});
 
   @override
   Widget build(BuildContext context) {
+    final AffiliationRepository repo = forTeacher
+        ? sl<TeacherRepository>()
+        : sl<StudentRepository>();
     return BlocProvider(
-      create: (_) => sl<AffiliationCubit>()..init(),
+      create: (_) => AffiliationCubit(repo)..init(),
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(

@@ -11,9 +11,7 @@ class GetEnrollmentRequestsUseCase
   GetEnrollmentRequestsUseCase(this.repository);
 
   @override
-  Future<Either<Failure, List<EnrollmentRequestEntity>>> call(
-    NoParams params,
-  ) {
+  Future<Either<Failure, List<EnrollmentRequestEntity>>> call(NoParams params) {
     return repository.getEnrollmentRequests();
   }
 }

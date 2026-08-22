@@ -72,6 +72,8 @@ class _DashboardContent extends StatelessWidget {
       children: [
         const TeacherHeader(),
         const SizedBox(height: 20),
+        const _InstitutionBanner(),
+        const SizedBox(height: 20),
         _StatsGrid(stats: state.stats),
         const SizedBox(height: 20),
         ElevatedButton.icon(
@@ -124,6 +126,55 @@ class _DashboardContent extends StatelessWidget {
             ),
           ),
       ],
+    );
+  }
+}
+
+class _InstitutionBanner extends StatelessWidget {
+  const _InstitutionBanner();
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => context.push(AppRoutes.teacherAffiliation),
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: AppColors.glow.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.chevron_left_rounded, color: AppColors.primary),
+            const SizedBox(width: 8),
+            const Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    'أكمل تحديد مؤسستك التعليمية',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(height: 2),
+                  Text(
+                    'حدّد مؤسستك وصفك لتتمكن من إضافة الدروس',
+                    style: TextStyle(fontSize: 12, color: AppColors.textGrey),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.15),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.school_outlined, color: AppColors.primary),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

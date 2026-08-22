@@ -59,6 +59,7 @@ class AppRoutes {
 
   static const notifications = '/student/notifications';
   static const affiliation = '/student/affiliation';
+  static const teacherAffiliation = '/teacher/affiliation';
 }
 
 final GoRouter appRouter = GoRouter(
@@ -179,6 +180,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.affiliation,
       builder: (context, _) => const AffiliationPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.teacherAffiliation,
+      builder: (context, _) => const AffiliationPage(forTeacher: true),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {

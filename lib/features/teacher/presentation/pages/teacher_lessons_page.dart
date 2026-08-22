@@ -79,9 +79,7 @@ class _TeacherLessonsView extends StatelessWidget {
                   child: BlocBuilder<TeacherLessonsBloc, TeacherLessonsState>(
                     builder: (context, state) {
                       if (state is TeacherLessonsLoading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return const Center(child: CircularProgressIndicator());
                       } else if (state is TeacherLessonsError) {
                         return Center(child: Text(state.message));
                       } else if (state is TeacherLessonsLoaded) {

@@ -172,10 +172,7 @@ class _RequestCard extends StatelessWidget {
             children: [
               Text(
                 request.createdAt,
-                style: const TextStyle(
-                  fontSize: 11,
-                  color: AppColors.textGrey,
-                ),
+                style: const TextStyle(fontSize: 11, color: AppColors.textGrey),
               ),
               const Spacer(),
               Column(

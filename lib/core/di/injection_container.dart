@@ -14,7 +14,6 @@ import '../../features/student/domain/usecases/get_notifications_usecase.dart';
 import '../../features/student/domain/usecases/get_unread_count_usecase.dart';
 import '../../features/student/domain/usecases/mark_all_read_usecase.dart';
 import '../../features/student/presentation/cubit/notification_badge_cubit.dart';
-import '../../features/student/presentation/cubit/affiliation_cubit.dart';
 import '../../features/student/domain/usecases/get_recent_lessons_usecase.dart';
 import '../../features/student/domain/usecases/get_subjects_usecase.dart';
 import '../../features/student/domain/usecases/toggle_favorite_usecase.dart';
@@ -188,8 +187,8 @@ Future<void> initDependencies() async {
   // Reuses GetSubjectsUseCase already registered above (Student — Use cases)
   sl.registerFactory(() => SubjectsBloc(getSubjectsUseCase: sl()));
 
-  // Student - Affiliation (institution selection) — uses StudentRepository
-  sl.registerFactory(() => AffiliationCubit(sl()));
+  // Affiliation cubit is constructed by AffiliationPage itself with the right
+  // repository (StudentRepository / TeacherRepository), so no DI entry here.
 
   // ===== Teacher =====
 

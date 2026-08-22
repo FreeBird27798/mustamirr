@@ -148,10 +148,7 @@ class _ContentCard extends StatelessWidget {
               const Spacer(),
               Text(
                 '${content.downloadsCount} طالب نزل الدرس',
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.textGrey,
-                ),
+                style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
               ),
             ],
           ),

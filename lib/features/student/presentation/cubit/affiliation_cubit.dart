@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/affiliation.dart';
-import '../../domain/repositories/student_repository.dart';
+import '../../domain/repositories/affiliation_repository.dart';
 
 class AffiliationState extends Equatable {
   final bool initialLoading; // checking existing status / loading types
@@ -62,7 +62,7 @@ class AffiliationState extends Equatable {
 }
 
 class AffiliationCubit extends Cubit<AffiliationState> {
-  final StudentRepository repository;
+  final AffiliationRepository repository;
 
   AffiliationCubit(this.repository) : super(const AffiliationState());
 

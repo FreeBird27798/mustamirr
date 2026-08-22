@@ -49,15 +49,16 @@ class TeacherStudentsPage extends StatelessWidget {
                           return Center(child: Text(state.message));
                         } else if (state is StudentsLoaded) {
                           if (state.students.isEmpty) {
-                            return const Center(child: Text('لا يوجد طلاب بعد'));
+                            return const Center(
+                              child: Text('لا يوجد طلاب بعد'),
+                            );
                           }
                           return ListView.separated(
                             itemCount: state.students.length,
                             separatorBuilder: (_, _) =>
                                 const SizedBox(height: 12),
-                            itemBuilder: (context, index) => _StudentCard(
-                              student: state.students[index],
-                            ),
+                            itemBuilder: (context, index) =>
+                                _StudentCard(student: state.students[index]),
                           );
                         }
                         return const SizedBox.shrink();

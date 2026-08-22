@@ -23,7 +23,8 @@ class AdminInstitutionsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) =>
-          sl<InstitutionsBloc>()..add(const LoadInstitutionsEvent(type: 'university')),
+          sl<InstitutionsBloc>()
+            ..add(const LoadInstitutionsEvent(type: 'university')),
       child: const _InstitutionsView(),
     );
   }
@@ -185,8 +186,9 @@ class _TabsBar extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 13,
-                      fontWeight:
-                          i == index ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: i == index
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       color: i == index
                           ? AppColors.primary
                           : AppColors.textGrey,
@@ -296,9 +298,7 @@ class _InstitutionCard extends StatelessWidget {
                 confirmColor: Colors.red,
               );
               if (confirmed) {
-                bloc.add(
-                  DeleteInstitutionEvent(institutionId: institution.id),
-                );
+                bloc.add(DeleteInstitutionEvent(institutionId: institution.id));
               }
             },
             icon: const Icon(Icons.delete_outline_rounded, color: Colors.red),

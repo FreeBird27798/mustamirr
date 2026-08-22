@@ -43,7 +43,9 @@ Failure _mapStatusCode(DioException error) {
     );
   }
   if (status == 403) {
-    return UnauthorizedFailure(serverMessage ?? 'ليس لديك صلاحية لهذا الإجراء.');
+    return UnauthorizedFailure(
+      serverMessage ?? 'ليس لديك صلاحية لهذا الإجراء.',
+    );
   }
   if (status == 422) {
     // Laravel validation errors

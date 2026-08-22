@@ -4,7 +4,8 @@ import '../../../../core/errors/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../repositories/auth_repository.dart';
 
-class ResendVerificationUseCase implements UseCase<Unit, ResendVerificationParams> {
+class ResendVerificationUseCase
+    implements UseCase<Unit, ResendVerificationParams> {
   final AuthRepository repository;
 
   ResendVerificationUseCase(this.repository);

@@ -149,8 +149,10 @@ class _AddForm extends StatelessWidget {
             textAlign: TextAlign.right,
             decoration: InputDecoration(
               hintText: 'اسم المادة',
-              hintStyle:
-                  const TextStyle(color: AppColors.textGrey, fontSize: 13),
+              hintStyle: const TextStyle(
+                color: AppColors.textGrey,
+                fontSize: 13,
+              ),
               filled: true,
               fillColor: Colors.white,
               border: OutlineInputBorder(
@@ -245,8 +247,10 @@ class _SubjectCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   '${subject.grade} • ${subject.lessonsCount} درسًا',
-                  style:
-                      const TextStyle(fontSize: 12, color: AppColors.textGrey),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textGrey,
+                  ),
                 ),
               ],
             ),

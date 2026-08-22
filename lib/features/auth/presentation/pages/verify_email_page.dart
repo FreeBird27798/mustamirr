@@ -31,10 +31,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   void _onVerify(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
-        VerifyEmailEvent(
-          email: widget.email,
-          otp: _otpController.text.trim(),
-        ),
+        VerifyEmailEvent(email: widget.email, otp: _otpController.text.trim()),
       );
     }
   }

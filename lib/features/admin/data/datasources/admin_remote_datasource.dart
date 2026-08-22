@@ -161,14 +161,54 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
 
   // ===== Institutions =====
   final List<InstitutionModel> _institutions = [
-    const InstitutionModel(id: 1, type: 'university', name: 'جامعة الملك سعود', subtitle: 'الرياض'),
-    const InstitutionModel(id: 2, type: 'university', name: 'جامعة الملك عبدالعزيز', subtitle: 'جدة'),
-    const InstitutionModel(id: 3, type: 'school', name: 'مدرسة النور الأهلية', subtitle: 'الرياض'),
-    const InstitutionModel(id: 4, type: 'school', name: 'مدرسة الرواد الدولية', subtitle: 'جدة'),
-    const InstitutionModel(id: 5, type: 'specialization', name: 'علوم الحاسب', subtitle: 'جامعة الملك سعود - بكالوريوس'),
-    const InstitutionModel(id: 6, type: 'specialization', name: 'هندسة البرمجيات', subtitle: 'جامعة الملك سعود - بكالوريوس'),
-    const InstitutionModel(id: 7, type: 'grade', name: 'الصف الأول الثانوي', subtitle: 'مدرسة النور الأهلية'),
-    const InstitutionModel(id: 8, type: 'grade', name: 'الصف الثاني الثانوي', subtitle: 'مدرسة الرواد الدولية'),
+    const InstitutionModel(
+      id: 1,
+      type: 'university',
+      name: 'جامعة الملك سعود',
+      subtitle: 'الرياض',
+    ),
+    const InstitutionModel(
+      id: 2,
+      type: 'university',
+      name: 'جامعة الملك عبدالعزيز',
+      subtitle: 'جدة',
+    ),
+    const InstitutionModel(
+      id: 3,
+      type: 'school',
+      name: 'مدرسة النور الأهلية',
+      subtitle: 'الرياض',
+    ),
+    const InstitutionModel(
+      id: 4,
+      type: 'school',
+      name: 'مدرسة الرواد الدولية',
+      subtitle: 'جدة',
+    ),
+    const InstitutionModel(
+      id: 5,
+      type: 'specialization',
+      name: 'علوم الحاسب',
+      subtitle: 'جامعة الملك سعود - بكالوريوس',
+    ),
+    const InstitutionModel(
+      id: 6,
+      type: 'specialization',
+      name: 'هندسة البرمجيات',
+      subtitle: 'جامعة الملك سعود - بكالوريوس',
+    ),
+    const InstitutionModel(
+      id: 7,
+      type: 'grade',
+      name: 'الصف الأول الثانوي',
+      subtitle: 'مدرسة النور الأهلية',
+    ),
+    const InstitutionModel(
+      id: 8,
+      type: 'grade',
+      name: 'الصف الثاني الثانوي',
+      subtitle: 'مدرسة الرواد الدولية',
+    ),
   ];
   int _nextInstitutionId = 9;
 
@@ -199,10 +239,30 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
 
   // ===== Subjects =====
   final List<AdminSubjectModel> _subjects = [
-    const AdminSubjectModel(id: 1, name: 'الرياضيات', grade: 'الصف الثالث الثانوي', lessonsCount: 24),
-    const AdminSubjectModel(id: 2, name: 'الفيزياء', grade: 'الصف الثالث الثانوي', lessonsCount: 18),
-    const AdminSubjectModel(id: 3, name: 'الكيمياء', grade: 'الصف الثاني الثانوي', lessonsCount: 16),
-    const AdminSubjectModel(id: 4, name: 'اللغة العربية', grade: 'كل الصفوف', lessonsCount: 30),
+    const AdminSubjectModel(
+      id: 1,
+      name: 'الرياضيات',
+      grade: 'الصف الثالث الثانوي',
+      lessonsCount: 24,
+    ),
+    const AdminSubjectModel(
+      id: 2,
+      name: 'الفيزياء',
+      grade: 'الصف الثالث الثانوي',
+      lessonsCount: 18,
+    ),
+    const AdminSubjectModel(
+      id: 3,
+      name: 'الكيمياء',
+      grade: 'الصف الثاني الثانوي',
+      lessonsCount: 16,
+    ),
+    const AdminSubjectModel(
+      id: 4,
+      name: 'اللغة العربية',
+      grade: 'كل الصفوف',
+      lessonsCount: 30,
+    ),
   ];
   int _nextSubjectId = 5;
 
@@ -233,10 +293,38 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
 
   // ===== Content =====
   final List<AdminContentModel> _content = [
-    const AdminContentModel(id: 1, title: 'مقدمة في الدوال والمتباينات', subject: 'الرياضيات', teacherName: 'أ. أحمد العلي', fileType: 'pdf', downloadsCount: 100),
-    const AdminContentModel(id: 2, title: 'التفاعلات الكيميائية والاتزان', subject: 'الكيمياء', teacherName: 'أ. محمد الحسن', fileType: 'video', downloadsCount: 40),
-    const AdminContentModel(id: 3, title: 'علم الوراثة والصفات', subject: 'الأحياء', teacherName: 'أ. ليلى أنور', fileType: 'pdf', downloadsCount: 100),
-    const AdminContentModel(id: 4, title: 'البلاغة: التشبيه والاستعارة', subject: 'اللغة العربية', teacherName: 'أ. أحمد العلي', fileType: 'video', downloadsCount: 40),
+    const AdminContentModel(
+      id: 1,
+      title: 'مقدمة في الدوال والمتباينات',
+      subject: 'الرياضيات',
+      teacherName: 'أ. أحمد العلي',
+      fileType: 'pdf',
+      downloadsCount: 100,
+    ),
+    const AdminContentModel(
+      id: 2,
+      title: 'التفاعلات الكيميائية والاتزان',
+      subject: 'الكيمياء',
+      teacherName: 'أ. محمد الحسن',
+      fileType: 'video',
+      downloadsCount: 40,
+    ),
+    const AdminContentModel(
+      id: 3,
+      title: 'علم الوراثة والصفات',
+      subject: 'الأحياء',
+      teacherName: 'أ. ليلى أنور',
+      fileType: 'pdf',
+      downloadsCount: 100,
+    ),
+    const AdminContentModel(
+      id: 4,
+      title: 'البلاغة: التشبيه والاستعارة',
+      subject: 'اللغة العربية',
+      teacherName: 'أ. أحمد العلي',
+      fileType: 'video',
+      downloadsCount: 40,
+    ),
   ];
 
   @override

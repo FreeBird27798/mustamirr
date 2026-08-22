@@ -118,7 +118,11 @@ class _Tabs extends StatelessWidget {
       child: Row(
         children: [
           _tab('الطلاب ($studentsCount)', showStudents, () => onChanged(true)),
-          _tab('المعلمون ($teachersCount)', !showStudents, () => onChanged(false)),
+          _tab(
+            'المعلمون ($teachersCount)',
+            !showStudents,
+            () => onChanged(false),
+          ),
         ],
       ),
     );
@@ -218,7 +222,10 @@ class _UserCard extends StatelessWidget {
                     bloc.add(DeleteUserEvent(userId: user.id));
                   }
                 },
-                icon: const Icon(Icons.delete_outline_rounded, color: Colors.red),
+                icon: const Icon(
+                  Icons.delete_outline_rounded,
+                  color: Colors.red,
+                ),
               ),
               Expanded(
                 child: Container(

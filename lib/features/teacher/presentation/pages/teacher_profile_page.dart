@@ -24,9 +24,9 @@ class TeacherProfilePage extends StatelessWidget {
             context.go(AppRoutes.login);
           }
           if (state is AuthFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },
         child: Directionality(
@@ -56,6 +56,12 @@ class TeacherProfilePage extends StatelessWidget {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
+                  _SettingsTile(
+                    icon: Icons.school_outlined,
+                    title: 'المؤسسة التعليمية',
+                    subtitle: 'حدّد مؤسستك وصفك وتخصصك',
+                    onTap: () => context.push(AppRoutes.teacherAffiliation),
+                  ),
                   const _SettingsTile(
                     icon: Icons.edit_outlined,
                     title: 'تعديل الملف الشخصي',
@@ -102,7 +108,9 @@ class TeacherProfilePage extends StatelessWidget {
                             ? const SizedBox(
                                 width: 16,
                                 height: 16,
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : const Icon(Icons.logout_rounded),
                         label: const Text('تسجيل الخروج'),
@@ -168,11 +176,13 @@ class _SettingsTile extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
+  final VoidCallback? onTap;
 
   const _SettingsTile({
     required this.icon,
     required this.title,
     required this.subtitle,
+    this.onTap,
   });
 
   @override
@@ -184,7 +194,7 @@ class _SettingsTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: () => showComingSoon(context),
+          onTap: onTap ?? () => showComingSoon(context),
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Row(

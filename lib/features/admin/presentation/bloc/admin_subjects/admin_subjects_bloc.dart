@@ -7,8 +7,7 @@ import '../../../domain/usecases/get_admin_subjects_usecase.dart';
 import 'admin_subjects_event.dart';
 import 'admin_subjects_state.dart';
 
-class AdminSubjectsBloc
-    extends Bloc<AdminSubjectsEvent, AdminSubjectsState> {
+class AdminSubjectsBloc extends Bloc<AdminSubjectsEvent, AdminSubjectsState> {
   final GetAdminSubjectsUseCase getAdminSubjectsUseCase;
   final AddSubjectUseCase addSubjectUseCase;
   final DeleteSubjectUseCase deleteSubjectUseCase;

@@ -5,8 +5,7 @@ import '../../../../core/usecases/usecase.dart';
 import '../entities/admin_content_entity.dart';
 import '../repositories/admin_repository.dart';
 
-class GetContentUseCase
-    implements UseCase<List<AdminContentEntity>, NoParams> {
+class GetContentUseCase implements UseCase<List<AdminContentEntity>, NoParams> {
   final AdminRepository repository;
   GetContentUseCase(this.repository);
 

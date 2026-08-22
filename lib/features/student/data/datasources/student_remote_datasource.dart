@@ -11,6 +11,8 @@ abstract class StudentRemoteDataSource {
   Future<List<LessonModel>> getFavorites();
   Future<List<LessonModel>> getDownloads();
   Future<List<NotificationModel>> getNotifications();
+  Future<int> getUnreadCount();
+  Future<void> markAllNotificationsRead();
   Future<void> toggleFavorite(int lessonId);
   Future<void> downloadLesson(int lessonId);
   Future<void> deleteDownload(int lessonId);
@@ -66,6 +68,23 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
   Future<List<NotificationModel>> getNotifications() async {
     final res = await _dio.get('/notifications');
     return _asList(res.data['data']).map(NotificationModel.fromJson).toList();
+  }
+
+  @override
+  Future<int> getUnreadCount() async {
+    final res = await _dio.get('/notifications/unread-count');
+    return (res.data['data']['unread_count'] as num?)?.toInt() ?? 0;
+  }
+
+  @override
+  Future<void> markAllNotificationsRead() async {
+    // The host (LiteSpeed) blocks the PATCH method with a 403, so we use
+    // Laravel's method spoofing: POST with a `_method=PATCH` form field.
+    await _dio.post(
+      '/notifications/read-all',
+      data: {'_method': 'PATCH'},
+      options: Options(contentType: Headers.formUrlEncodedContentType),
+    );
   }
 
   @override

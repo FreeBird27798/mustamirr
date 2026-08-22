@@ -4,6 +4,7 @@ import '../../../../core/di/injection_container.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/coming_soon.dart';
 import '../../domain/entities/notification_entity.dart';
+import '../cubit/notification_badge_cubit.dart';
 import '../bloc/notifications/notifications_bloc.dart';
 import '../bloc/notifications/notifications_event.dart';
 import '../bloc/notifications/notifications_state.dart';
@@ -14,7 +15,11 @@ class NotificationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => sl<NotificationsBloc>()..add(LoadNotificationsEvent()),
+      create: (context) {
+        // opening the screen counts as reading everything → clear the dot
+        context.read<NotificationBadgeCubit>().markAllRead();
+        return sl<NotificationsBloc>()..add(LoadNotificationsEvent());
+      },
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(

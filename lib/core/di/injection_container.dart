@@ -11,6 +11,9 @@ import '../../features/student/domain/usecases/get_downloads_usecase.dart';
 import '../../features/student/domain/usecases/get_favorites_usecase.dart';
 import '../../features/student/domain/usecases/get_lessons_usecase.dart';
 import '../../features/student/domain/usecases/get_notifications_usecase.dart';
+import '../../features/student/domain/usecases/get_unread_count_usecase.dart';
+import '../../features/student/domain/usecases/mark_all_read_usecase.dart';
+import '../../features/student/presentation/cubit/notification_badge_cubit.dart';
 import '../../features/student/domain/usecases/get_recent_lessons_usecase.dart';
 import '../../features/student/domain/usecases/get_subjects_usecase.dart';
 import '../../features/student/domain/usecases/toggle_favorite_usecase.dart';
@@ -166,9 +169,19 @@ Future<void> initDependencies() async {
 
   // Student - Use cases (Notifications)
   sl.registerLazySingleton(() => GetNotificationsUseCase(sl()));
+  sl.registerLazySingleton(() => GetUnreadCountUseCase(sl()));
+  sl.registerLazySingleton(() => MarkAllReadUseCase(sl()));
 
   // Student - Bloc (Notifications)
   sl.registerFactory(() => NotificationsBloc(getNotificationsUseCase: sl()));
+
+  // Student - Notification badge (app-wide unread count for the header dot)
+  sl.registerLazySingleton(
+    () => NotificationBadgeCubit(
+      getUnreadCountUseCase: sl(),
+      markAllReadUseCase: sl(),
+    ),
+  );
 
   // Student - Bloc (Subjects)
   // Reuses GetSubjectsUseCase already registered above (Student — Use cases)

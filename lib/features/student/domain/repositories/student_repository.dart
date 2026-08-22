@@ -12,6 +12,8 @@ abstract class StudentRepository {
   Future<Either<Failure, List<LessonEntity>>> getFavorites();
   Future<Either<Failure, List<LessonEntity>>> getDownloads();
   Future<Either<Failure, List<NotificationEntity>>> getNotifications();
+  Future<Either<Failure, int>> getUnreadCount();
+  Future<Either<Failure, Unit>> markAllNotificationsRead();
   Future<Either<Failure, Unit>> toggleFavorite(int lessonId);
   Future<Either<Failure, Unit>> downloadLesson(int lessonId);
   Future<Either<Failure, Unit>> deleteDownload(int lessonId);

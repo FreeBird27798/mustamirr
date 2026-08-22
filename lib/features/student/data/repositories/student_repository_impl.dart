@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/error_mapper.dart';
 import '../../../../core/errors/failures.dart';
+import '../../domain/entities/affiliation.dart';
 import '../../domain/entities/lesson_entity.dart';
 import '../../domain/entities/notification_entity.dart';
 import '../../domain/entities/subject_entity.dart';
@@ -116,6 +117,81 @@ class StudentRepositoryImpl implements StudentRepository {
   Future<Either<Failure, Unit>> deleteDownload(int lessonId) async {
     try {
       await remoteDataSource.deleteDownload(lessonId);
+      return const Right(unit);
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
+
+  // ===== Affiliation =====
+
+  @override
+  Future<Either<Failure, List<InstitutionTypeEntity>>>
+  getInstitutionTypes() async {
+    try {
+      return Right(await remoteDataSource.getInstitutionTypes());
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<InstitutionEntity>>> getInstitutions(
+    String type,
+  ) async {
+    try {
+      return Right(await remoteDataSource.getInstitutions(type));
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<AcademicLevelEntity>>> getLevels(
+    int institutionId,
+  ) async {
+    try {
+      return Right(await remoteDataSource.getLevels(institutionId));
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<SpecializationEntity>>> getSpecializations(
+    int levelId,
+  ) async {
+    try {
+      return Right(await remoteDataSource.getSpecializations(levelId));
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AffiliationStatusEntity?>>
+  getAffiliationStatus() async {
+    try {
+      return Right(await remoteDataSource.getAffiliationStatus());
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> submitAffiliation({
+    required String institutionType,
+    required int institutionId,
+    required int academicLevelId,
+    required int specializationId,
+  }) async {
+    try {
+      await remoteDataSource.submitAffiliation(
+        institutionType: institutionType,
+        institutionId: institutionId,
+        academicLevelId: academicLevelId,
+        specializationId: specializationId,
+      );
       return const Right(unit);
     } catch (e) {
       return Left(mapErrorToFailure(e));

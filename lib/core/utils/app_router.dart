@@ -12,6 +12,7 @@ import '../../features/student/presentation/pages/favorites_page.dart';
 import '../../features/student/presentation/pages/downloads_page.dart';
 import '../../features/student/presentation/pages/lessons_page.dart';
 import '../../features/student/presentation/pages/notifications_page.dart';
+import '../../features/student/presentation/pages/affiliation_page.dart';
 import '../../features/student/presentation/pages/subjects_page.dart';
 import '../../features/student/presentation/pages/profile_page.dart';
 import '../../features/teacher/presentation/pages/teacher_dashboard_page.dart';
@@ -57,6 +58,7 @@ class AppRoutes {
   static String lessonsPath(int subjectId) => '/student/lessons/$subjectId';
 
   static const notifications = '/student/notifications';
+  static const affiliation = '/student/affiliation';
 }
 
 final GoRouter appRouter = GoRouter(
@@ -78,7 +80,8 @@ final GoRouter appRouter = GoRouter(
     final token = prefs.getString('auth_token');
     final role = prefs.getString('user_role');
 
-    final isAuthPage = loc == AppRoutes.login ||
+    final isAuthPage =
+        loc == AppRoutes.login ||
         loc == AppRoutes.register ||
         loc == AppRoutes.verifyEmail;
 
@@ -172,6 +175,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.notifications,
       builder: (context, _) => const NotificationsPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.affiliation,
+      builder: (context, _) => const AffiliationPage(),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {

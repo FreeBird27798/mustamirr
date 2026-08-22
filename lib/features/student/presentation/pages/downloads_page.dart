@@ -33,7 +33,9 @@ class DownloadsPage extends StatelessWidget {
                     child: BlocBuilder<DownloadsBloc, DownloadsState>(
                       builder: (context, state) {
                         if (state is DownloadsLoading) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
                         } else if (state is DownloadsError) {
                           return Center(child: Text(state.message));
                         } else if (state is DownloadsLoaded) {
@@ -150,10 +152,7 @@ class _DownloadedLessonCard extends StatelessWidget {
           ),
           IconButton(
             onPressed: () => showComingSoon(context),
-            icon: const Icon(
-              Icons.visibility_outlined,
-              color: AppColors.glow,
-            ),
+            icon: const Icon(Icons.visibility_outlined, color: AppColors.glow),
           ),
           Expanded(
             child: Column(
@@ -166,7 +165,10 @@ class _DownloadedLessonCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   lesson.teacherName,
-                  style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textGrey,
+                  ),
                 ),
               ],
             ),

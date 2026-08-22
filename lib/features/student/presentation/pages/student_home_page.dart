@@ -79,7 +79,8 @@ class _HomeContent extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: subjects.length,
             separatorBuilder: (_, _) => const SizedBox(width: 12),
-            itemBuilder: (context, index) => _SubjectCard(subject: subjects[index]),
+            itemBuilder: (context, index) =>
+                _SubjectCard(subject: subjects[index]),
           ),
         ),
         const SizedBox(height: 24),
@@ -101,42 +102,48 @@ class _InstitutionBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.glow.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.chevron_left_rounded, color: AppColors.primary),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: const [
-                Text(
-                  'أكمل تحديد مؤسستك التعليمية',
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: 2),
-                Text(
-                  'اختر مدرستك أو جامعتك لربط الدروس بك',
-                  style: TextStyle(fontSize: 12, color: AppColors.textGrey),
-                ),
-              ],
+    return GestureDetector(
+      onTap: () => context.push(AppRoutes.affiliation),
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: AppColors.glow.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.chevron_left_rounded, color: AppColors.primary),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: const [
+                  Text(
+                    'أكمل تحديد مؤسستك التعليمية',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(height: 2),
+                  Text(
+                    'اختر مدرستك أو جامعتك لربط الدروس بك',
+                    style: TextStyle(fontSize: 12, color: AppColors.textGrey),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 8),
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.15),
-              shape: BoxShape.circle,
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.15),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.school_outlined,
+                color: AppColors.primary,
+              ),
             ),
-            child: const Icon(Icons.school_outlined, color: AppColors.primary),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -240,18 +247,27 @@ class _SubjectCard extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   '${subject.lessonCount}',
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Text(
                   'درسًا',
-                  style: const TextStyle(fontSize: 11, color: AppColors.textGrey),
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: AppColors.textGrey,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   subject.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),
@@ -306,7 +322,10 @@ class _LessonCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   lesson.teacherName,
-                  style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textGrey,
+                  ),
                 ),
                 const SizedBox(height: 6),
                 Row(
@@ -314,25 +333,43 @@ class _LessonCard extends StatelessWidget {
                   children: [
                     Text(
                       '${lesson.pageCount} صفحة',
-                      style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textGrey,
+                      ),
                     ),
                     const SizedBox(width: 4),
-                    const Icon(Icons.access_time_rounded, size: 14, color: AppColors.textGrey),
+                    const Icon(
+                      Icons.access_time_rounded,
+                      size: 14,
+                      color: AppColors.textGrey,
+                    ),
                     const SizedBox(width: 12),
                     Text(
                       '${lesson.rating}',
-                      style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textGrey,
+                      ),
                     ),
                     const SizedBox(width: 4),
-                    const Icon(Icons.star_rounded, size: 14, color: AppColors.amber),
+                    const Icon(
+                      Icons.star_rounded,
+                      size: 14,
+                      color: AppColors.amber,
+                    ),
                   ],
                 ),
               ],
             ),
           ),
           IconButton(
-            onPressed:() => context.read<StudentHomeBloc>().add(ToggleFavoriteEvent(lessonId: lesson.id)),
-            icon: Icon(lesson.isFavorite ? Icons.favorite : Icons.favorite_border),
+            onPressed: () => context.read<StudentHomeBloc>().add(
+              ToggleFavoriteEvent(lessonId: lesson.id),
+            ),
+            icon: Icon(
+              lesson.isFavorite ? Icons.favorite : Icons.favorite_border,
+            ),
             color: lesson.isFavorite ? Colors.red : AppColors.textGrey,
           ),
         ],

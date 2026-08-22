@@ -36,7 +36,8 @@ class LessonsPage extends StatelessWidget {
                       Expanded(
                         child: BlocBuilder<LessonsBloc, LessonsState>(
                           builder: (context, state) {
-                            final title = state is LessonsLoaded &&
+                            final title =
+                                state is LessonsLoaded &&
                                     state.lessons.isNotEmpty
                                 ? state.lessons.first.subjectName
                                 : 'الدروس';
@@ -59,16 +60,21 @@ class LessonsPage extends StatelessWidget {
                     child: BlocBuilder<LessonsBloc, LessonsState>(
                       builder: (context, state) {
                         if (state is LessonsLoading) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
                         } else if (state is LessonsError) {
                           return Center(child: Text(state.message));
                         } else if (state is LessonsLoaded) {
                           if (state.lessons.isEmpty) {
-                            return const Center(child: Text('لا توجد دروس بعد'));
+                            return const Center(
+                              child: Text('لا توجد دروس بعد'),
+                            );
                           }
                           return ListView.separated(
                             itemCount: state.lessons.length,
-                            separatorBuilder: (_, _) => const SizedBox(height: 12),
+                            separatorBuilder: (_, _) =>
+                                const SizedBox(height: 12),
                             itemBuilder: (context, index) =>
                                 _LessonRow(lesson: state.lessons[index]),
                           );
@@ -111,7 +117,9 @@ class _LessonRow extends StatelessWidget {
               lesson.isDownloaded
                   ? Icons.download_done_rounded
                   : Icons.download_outlined,
-              color: lesson.isDownloaded ? AppColors.primary : AppColors.textGrey,
+              color: lesson.isDownloaded
+                  ? AppColors.primary
+                  : AppColors.textGrey,
             ),
           ),
           IconButton(
@@ -136,7 +144,10 @@ class _LessonRow extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   lesson.teacherName,
-                  style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textGrey,
+                  ),
                 ),
                 const SizedBox(height: 6),
                 Row(
@@ -144,17 +155,31 @@ class _LessonRow extends StatelessWidget {
                   children: [
                     Text(
                       '${lesson.pageCount} صفحة',
-                      style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textGrey,
+                      ),
                     ),
                     const SizedBox(width: 4),
-                    const Icon(Icons.access_time_rounded, size: 14, color: AppColors.textGrey),
+                    const Icon(
+                      Icons.access_time_rounded,
+                      size: 14,
+                      color: AppColors.textGrey,
+                    ),
                     const SizedBox(width: 12),
                     Text(
                       '${lesson.rating}',
-                      style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textGrey,
+                      ),
                     ),
                     const SizedBox(width: 4),
-                    const Icon(Icons.star_rounded, size: 14, color: AppColors.amber),
+                    const Icon(
+                      Icons.star_rounded,
+                      size: 14,
+                      color: AppColors.amber,
+                    ),
                   ],
                 ),
               ],

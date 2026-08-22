@@ -33,7 +33,9 @@ class FavoritesPage extends StatelessWidget {
                     child: BlocBuilder<FavoritesBloc, FavoritesState>(
                       builder: (context, state) {
                         if (state is FavoritesLoading) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
                         } else if (state is FavoritesError) {
                           return Center(child: Text(state.message));
                         } else if (state is FavoritesLoaded) {
@@ -65,7 +67,11 @@ class _EmptyFavorites extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.auto_stories_outlined, size: 72, color: AppColors.textGrey),
+          const Icon(
+            Icons.auto_stories_outlined,
+            size: 72,
+            color: AppColors.textGrey,
+          ),
           const SizedBox(height: 20),
           const Text(
             'لا توجد دروس في المفضلة',
@@ -164,7 +170,10 @@ class _FavoriteLessonCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   lesson.teacherName,
-                  style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textGrey,
+                  ),
                 ),
                 const SizedBox(height: 6),
                 Row(
@@ -172,17 +181,31 @@ class _FavoriteLessonCard extends StatelessWidget {
                   children: [
                     Text(
                       '${lesson.pageCount} صفحة',
-                      style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textGrey,
+                      ),
                     ),
                     const SizedBox(width: 4),
-                    const Icon(Icons.access_time_rounded, size: 14, color: AppColors.textGrey),
+                    const Icon(
+                      Icons.access_time_rounded,
+                      size: 14,
+                      color: AppColors.textGrey,
+                    ),
                     const SizedBox(width: 12),
                     Text(
                       '${lesson.rating}',
-                      style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textGrey,
+                      ),
                     ),
                     const SizedBox(width: 4),
-                    const Icon(Icons.star_rounded, size: 14, color: AppColors.amber),
+                    const Icon(
+                      Icons.star_rounded,
+                      size: 14,
+                      color: AppColors.amber,
+                    ),
                   ],
                 ),
               ],

@@ -61,6 +61,15 @@ Failure _mapStatusCode(DioException error) {
 /// shape first.
 String? _extractServerMessage(dynamic data) {
   if (data is Map) {
+    // Field validation errors first — the specific one ("البريد مستخدم مسبقًا")
+    // is far more useful than the generic "البيانات المرسلة غير صحيحة".
+    final errors = data['errors'];
+    if (errors is Map && errors.isNotEmpty) {
+      final first = errors.values.first;
+      if (first is List && first.isNotEmpty) return first.first.toString();
+      if (first is String) return first;
+    }
+
     // Nested error object: { "error": { "code", "message" } }
     final error = data['error'];
     if (error is Map) {
@@ -71,14 +80,6 @@ String? _extractServerMessage(dynamic data) {
     // Top-level message (plain Laravel / success envelope)
     final message = data['message'];
     if (message is String && message.isNotEmpty) return message;
-
-    // Field validation errors: { "errors": { "email": ["..."] } }
-    final errors = data['errors'];
-    if (errors is Map && errors.isNotEmpty) {
-      final first = errors.values.first;
-      if (first is List && first.isNotEmpty) return first.first.toString();
-      if (first is String) return first;
-    }
   }
   return null;
 }

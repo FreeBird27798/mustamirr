@@ -27,16 +27,16 @@ class StudentHomeBloc extends Bloc<StudentHomeEvent, StudentHomeState> {
     await _fetchAndEmit(emit);
   }
 
-Future<void> _onToggleFavorite(
-  ToggleFavoriteEvent event,
-  Emitter<StudentHomeState> emit,
-) async {
-  final result = await toggleFavoriteUseCase(event.lessonId);
-  await result.fold(
-    (failure) async => emit(StudentHomeError(message: failure.message)),
-    (_) async => await _fetchAndEmit(emit),
-  );
-}
+  Future<void> _onToggleFavorite(
+    ToggleFavoriteEvent event,
+    Emitter<StudentHomeState> emit,
+  ) async {
+    final result = await toggleFavoriteUseCase(event.lessonId);
+    await result.fold(
+      (failure) async => emit(StudentHomeError(message: failure.message)),
+      (_) async => await _fetchAndEmit(emit),
+    );
+  }
 
   Future<void> _fetchAndEmit(Emitter<StudentHomeState> emit) async {
     final subjectsFuture = getSubjectsUseCase(NoParams());

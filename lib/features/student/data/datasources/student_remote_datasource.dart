@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../../../core/api/api_client.dart';
+import '../models/affiliation_models.dart';
 import '../models/lesson_model.dart';
 import '../models/notification_model.dart';
 import '../models/subject_model.dart';
@@ -16,6 +17,19 @@ abstract class StudentRemoteDataSource {
   Future<void> toggleFavorite(int lessonId);
   Future<void> downloadLesson(int lessonId);
   Future<void> deleteDownload(int lessonId);
+
+  // ===== Affiliation (institution selection) =====
+  Future<List<InstitutionTypeModel>> getInstitutionTypes();
+  Future<List<InstitutionModel>> getInstitutions(String type);
+  Future<List<AcademicLevelModel>> getLevels(int institutionId);
+  Future<List<SpecializationModel>> getSpecializations(int levelId);
+  Future<AffiliationStatusModel?> getAffiliationStatus();
+  Future<void> submitAffiliation({
+    required String institutionType,
+    required int institutionId,
+    required int academicLevelId,
+    required int specializationId,
+  });
 }
 
 class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
@@ -61,7 +75,9 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
   Future<List<LessonModel>> getDownloads() async {
     // Shape: { data: { storage: {...}, items: [...] } }
     final res = await _dio.get('/student/downloads');
-    return _asList(res.data['data']['items']).map(LessonModel.fromJson).toList();
+    return _asList(
+      res.data['data']['items'],
+    ).map(LessonModel.fromJson).toList();
   }
 
   @override
@@ -100,5 +116,64 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
   @override
   Future<void> deleteDownload(int lessonId) async {
     await _dio.delete('/student/downloads/$lessonId');
+  }
+
+  // ===== Affiliation =====
+
+  @override
+  Future<List<InstitutionTypeModel>> getInstitutionTypes() async {
+    final res = await _dio.get('/student/affiliation/institution-types');
+    return _asList(
+      res.data['data'],
+    ).map(InstitutionTypeModel.fromJson).toList();
+  }
+
+  @override
+  Future<List<InstitutionModel>> getInstitutions(String type) async {
+    final res = await _dio.get(
+      '/student/institutions',
+      queryParameters: {'type': type},
+    );
+    return _asList(res.data['data']).map(InstitutionModel.fromJson).toList();
+  }
+
+  @override
+  Future<List<AcademicLevelModel>> getLevels(int institutionId) async {
+    final res = await _dio.get('/student/institutions/$institutionId/levels');
+    return _asList(res.data['data']).map(AcademicLevelModel.fromJson).toList();
+  }
+
+  @override
+  Future<List<SpecializationModel>> getSpecializations(int levelId) async {
+    final res = await _dio.get('/student/levels/$levelId/specializations');
+    return _asList(res.data['data']).map(SpecializationModel.fromJson).toList();
+  }
+
+  @override
+  Future<AffiliationStatusModel?> getAffiliationStatus() async {
+    final res = await _dio.get('/student/affiliation/status');
+    final data = res.data['data'];
+    if (data is Map && data['status'] != null) {
+      return AffiliationStatusModel.fromJson(data.cast<String, dynamic>());
+    }
+    return null; // no request submitted yet
+  }
+
+  @override
+  Future<void> submitAffiliation({
+    required String institutionType,
+    required int institutionId,
+    required int academicLevelId,
+    required int specializationId,
+  }) async {
+    await _dio.post(
+      '/student/affiliation/requests',
+      data: {
+        'institution_type': institutionType,
+        'institution_id': institutionId,
+        'academic_level_id': academicLevelId,
+        'specialization_id': specializationId,
+      },
+    );
   }
 }

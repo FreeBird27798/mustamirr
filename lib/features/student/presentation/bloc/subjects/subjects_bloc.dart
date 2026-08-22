@@ -8,8 +8,7 @@ import 'subjects_state.dart';
 class SubjectsBloc extends Bloc<SubjectsEvent, SubjectsState> {
   final GetSubjectsUseCase getSubjectsUseCase;
 
-  SubjectsBloc({required this.getSubjectsUseCase})
-    : super(SubjectsInitial()) {
+  SubjectsBloc({required this.getSubjectsUseCase}) : super(SubjectsInitial()) {
     on<LoadSubjectsEvent>(_onLoadSubjects);
   }
 

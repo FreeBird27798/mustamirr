@@ -54,7 +54,9 @@ class NotificationsPage extends StatelessWidget {
                     child: BlocBuilder<NotificationsBloc, NotificationsState>(
                       builder: (context, state) {
                         if (state is NotificationsLoading) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
                         } else if (state is NotificationsError) {
                           return Center(child: Text(state.message));
                         } else if (state is NotificationsLoaded) {
@@ -63,7 +65,8 @@ class NotificationsPage extends StatelessWidget {
                           }
                           return ListView.separated(
                             itemCount: state.notifications.length,
-                            separatorBuilder: (_, _) => const SizedBox(height: 12),
+                            separatorBuilder: (_, _) =>
+                                const SizedBox(height: 12),
                             itemBuilder: (context, index) => _NotificationCard(
                               notification: state.notifications[index],
                             ),
@@ -103,55 +106,61 @@ class _NotificationCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => showComingSoon(context),
       child: Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: notification.isRead
-            ? AppColors.inputBackground
-            : AppColors.glow.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (!notification.isRead)
-            Container(
-              margin: const EdgeInsets.only(top: 4, left: 8),
-              width: 8,
-              height: 8,
-              decoration: const BoxDecoration(
-                color: Colors.red,
-                shape: BoxShape.circle,
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: notification.isRead
+              ? AppColors.inputBackground
+              : AppColors.glow.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (!notification.isRead)
+              Container(
+                margin: const EdgeInsets.only(top: 4, left: 8),
+                width: 8,
+                height: 8,
+                decoration: const BoxDecoration(
+                  color: Colors.red,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    notification.title,
+                    style: TextStyle(
+                      fontWeight: notification.isRead
+                          ? FontWeight.w500
+                          : FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    notification.body,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: AppColors.textGrey,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    notification.createdAt,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: AppColors.textGrey,
+                    ),
+                  ),
+                ],
               ),
             ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  notification.title,
-                  style: TextStyle(
-                    fontWeight: notification.isRead
-                        ? FontWeight.w500
-                        : FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  notification.body,
-                  style: const TextStyle(fontSize: 13, color: AppColors.textGrey),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  notification.createdAt,
-                  style: const TextStyle(fontSize: 11, color: AppColors.textGrey),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Icon(_typeIcon, color: AppColors.primary),
-        ],
-      ),
+            const SizedBox(width: 12),
+            Icon(_typeIcon, color: AppColors.primary),
+          ],
+        ),
       ),
     );
   }

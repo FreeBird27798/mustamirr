@@ -38,12 +38,16 @@ class SubjectsPage extends StatelessWidget {
                     child: BlocBuilder<SubjectsBloc, SubjectsState>(
                       builder: (context, state) {
                         if (state is SubjectsLoading) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
                         } else if (state is SubjectsError) {
                           return Center(child: Text(state.message));
                         } else if (state is SubjectsLoaded) {
                           if (state.subjects.isEmpty) {
-                            return const Center(child: Text('لا توجد مواد بعد'));
+                            return const Center(
+                              child: Text('لا توجد مواد بعد'),
+                            );
                           }
                           return GridView.builder(
                             gridDelegate:
@@ -100,7 +104,10 @@ class _SubjectTile extends StatelessWidget {
                 subject.name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 4),
               Text(

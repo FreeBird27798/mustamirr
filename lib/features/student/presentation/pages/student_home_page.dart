@@ -8,6 +8,7 @@ import '../../../../core/utils/coming_soon.dart';
 import '../../../../core/utils/file_type_style.dart';
 import '../../domain/entities/lesson_entity.dart';
 import '../../domain/entities/subject_entity.dart';
+import '../cubit/notification_badge_cubit.dart';
 import '../bloc/student_home/student_home_bloc.dart';
 import '../bloc/student_home/student_home_event.dart';
 import '../bloc/student_home/student_home_state.dart';
@@ -19,7 +20,11 @@ class StudentHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => sl<StudentHomeBloc>()..add(LoadHomeDataEvent()),
+      create: (context) {
+        // refresh the header's unread-notifications dot when home opens
+        context.read<NotificationBadgeCubit>().load();
+        return sl<StudentHomeBloc>()..add(LoadHomeDataEvent());
+      },
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(

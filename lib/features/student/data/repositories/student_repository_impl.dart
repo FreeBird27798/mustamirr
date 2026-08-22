@@ -73,6 +73,26 @@ class StudentRepositoryImpl implements StudentRepository {
   }
 
   @override
+  Future<Either<Failure, int>> getUnreadCount() async {
+    try {
+      final count = await remoteDataSource.getUnreadCount();
+      return Right(count);
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> markAllNotificationsRead() async {
+    try {
+      await remoteDataSource.markAllNotificationsRead();
+      return const Right(unit);
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
+
+  @override
   Future<Either<Failure, Unit>> toggleFavorite(int lessonId) async {
     try {
       await remoteDataSource.toggleFavorite(lessonId);

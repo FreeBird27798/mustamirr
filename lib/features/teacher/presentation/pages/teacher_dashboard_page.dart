@@ -6,6 +6,7 @@ import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_router.dart';
 import '../../domain/entities/teacher_lesson_entity.dart';
 import '../../domain/entities/teacher_stats_entity.dart';
+import '../../../student/presentation/cubit/notification_badge_cubit.dart';
 import '../bloc/dashboard/dashboard_bloc.dart';
 import '../bloc/dashboard/dashboard_event.dart';
 import '../bloc/dashboard/dashboard_state.dart';
@@ -18,7 +19,11 @@ class TeacherDashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => sl<DashboardBloc>()..add(LoadDashboardEvent()),
+      create: (context) {
+        // refresh the header's unread-notifications dot when the dashboard opens
+        context.read<NotificationBadgeCubit>().load();
+        return sl<DashboardBloc>()..add(LoadDashboardEvent());
+      },
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(

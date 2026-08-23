@@ -62,31 +62,6 @@ class TeacherProfilePage extends StatelessWidget {
                     subtitle: 'حدّد مؤسستك وصفك وتخصصك',
                     onTap: () => context.push(AppRoutes.teacherAffiliation),
                   ),
-                  const _SettingsTile(
-                    icon: Icons.edit_outlined,
-                    title: 'تعديل الملف الشخصي',
-                    subtitle: 'قم بتحديث معلوماتك الشخصية',
-                  ),
-                  const _SettingsTile(
-                    icon: Icons.notifications_outlined,
-                    title: 'إشعارات',
-                    subtitle: 'إدارة تفضيلات الإشعارات',
-                  ),
-                  const _SettingsTile(
-                    icon: Icons.shield_outlined,
-                    title: 'الخصوصية والأمان',
-                    subtitle: 'إعدادات أمان الحساب',
-                  ),
-                  const _SettingsTile(
-                    icon: Icons.help_outline_rounded,
-                    title: 'المساعدة والدعم',
-                    subtitle: 'احصل على المساعدة واتصل بالدعم',
-                  ),
-                  const _SettingsTile(
-                    icon: Icons.settings_outlined,
-                    title: 'إعدادات التطبيق',
-                    subtitle: 'تخصيص تفضيلات التطبيق',
-                  ),
                   const SizedBox(height: 12),
                   BlocBuilder<AuthBloc, AuthState>(
                     builder: (context, state) {

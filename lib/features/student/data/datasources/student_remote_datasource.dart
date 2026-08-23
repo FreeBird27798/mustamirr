@@ -30,6 +30,10 @@ abstract class StudentRemoteDataSource {
     required int academicLevelId,
     required int specializationId,
   });
+
+  // ===== Search =====
+  Future<List<LessonModel>> search(String query);
+  Future<List<String>> getRecentSearches();
 }
 
 class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
@@ -175,5 +179,25 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
         'specialization_id': specializationId,
       },
     );
+  }
+
+  // ===== Search =====
+
+  @override
+  Future<List<LessonModel>> search(String query) async {
+    final res = await _dio.get(
+      '/student/search',
+      queryParameters: {'q': query},
+    );
+    return _asList(res.data['data']).map(LessonModel.fromJson).toList();
+  }
+
+  @override
+  Future<List<String>> getRecentSearches() async {
+    final res = await _dio.get('/student/search/recent');
+    return _asList(res.data['data'])
+        .map((e) => (e['term'] ?? '') as String)
+        .where((t) => t.isNotEmpty)
+        .toList();
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_router.dart';
-import '../../../../core/utils/coming_soon.dart';
 import '../../../auth/presentation/cubit/session_cubit.dart';
 import '../cubit/notification_badge_cubit.dart';
 
@@ -53,7 +52,7 @@ class StudentHeader extends StatelessWidget {
               shape: const CircleBorder(),
               clipBehavior: Clip.antiAlias,
               child: InkWell(
-                onTap: () => showComingSoon(context),
+                onTap: () => context.push(AppRoutes.studentSearch),
                 child: const Padding(
                   padding: EdgeInsets.all(4),
                   child: Icon(Icons.search_rounded, size: 26),

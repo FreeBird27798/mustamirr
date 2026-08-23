@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/errors/error_mapper.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../student/domain/entities/affiliation.dart';
+import '../../../student/domain/entities/lesson_entity.dart';
 import '../../domain/entities/teacher_lesson_entity.dart';
 import '../../domain/entities/teacher_stats_entity.dart';
 import '../../domain/entities/teacher_student_entity.dart';
@@ -146,6 +147,26 @@ class TeacherRepositoryImpl implements TeacherRepository {
         specializationId: specializationId,
       );
       return const Right(unit);
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
+
+  // ===== Search =====
+
+  @override
+  Future<Either<Failure, List<LessonEntity>>> search(String query) async {
+    try {
+      return Right(await remoteDataSource.search(query));
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<String>>> getRecentSearches() async {
+    try {
+      return Right(await remoteDataSource.getRecentSearches());
     } catch (e) {
       return Left(mapErrorToFailure(e));
     }

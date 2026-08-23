@@ -13,6 +13,7 @@ import '../../features/student/presentation/pages/downloads_page.dart';
 import '../../features/student/presentation/pages/lessons_page.dart';
 import '../../features/student/presentation/pages/notifications_page.dart';
 import '../../features/student/presentation/pages/affiliation_page.dart';
+import '../../features/student/presentation/pages/search_page.dart';
 import '../../features/student/presentation/pages/subjects_page.dart';
 import '../../features/student/presentation/pages/profile_page.dart';
 import '../../features/teacher/presentation/pages/teacher_dashboard_page.dart';
@@ -60,6 +61,8 @@ class AppRoutes {
   static const notifications = '/student/notifications';
   static const affiliation = '/student/affiliation';
   static const teacherAffiliation = '/teacher/affiliation';
+  static const studentSearch = '/student/search';
+  static const teacherSearch = '/teacher/search';
 }
 
 final GoRouter appRouter = GoRouter(
@@ -184,6 +187,14 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.teacherAffiliation,
       builder: (context, _) => const AffiliationPage(forTeacher: true),
+    ),
+    GoRoute(
+      path: AppRoutes.studentSearch,
+      builder: (context, _) => const SearchPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.teacherSearch,
+      builder: (context, _) => const SearchPage(forTeacher: true),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {

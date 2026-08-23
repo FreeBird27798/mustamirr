@@ -197,4 +197,24 @@ class StudentRepositoryImpl implements StudentRepository {
       return Left(mapErrorToFailure(e));
     }
   }
+
+  // ===== Search =====
+
+  @override
+  Future<Either<Failure, List<LessonEntity>>> search(String query) async {
+    try {
+      return Right(await remoteDataSource.search(query));
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<String>>> getRecentSearches() async {
+    try {
+      return Right(await remoteDataSource.getRecentSearches());
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
 }

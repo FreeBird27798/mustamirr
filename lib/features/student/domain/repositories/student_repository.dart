@@ -5,8 +5,10 @@ import '../entities/lesson_entity.dart';
 import '../entities/notification_entity.dart';
 import '../entities/subject_entity.dart';
 import 'affiliation_repository.dart';
+import 'search_repository.dart';
 
-abstract class StudentRepository implements AffiliationRepository {
+abstract class StudentRepository
+    implements AffiliationRepository, SearchRepository {
   Future<Either<Failure, List<SubjectEntity>>> getSubjects();
   Future<Either<Failure, List<LessonEntity>>> getRecentLessons();
   Future<Either<Failure, List<LessonEntity>>> getLessons(int subjectId);

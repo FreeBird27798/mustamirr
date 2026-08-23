@@ -175,7 +175,10 @@ class _InstitutionBanner extends StatelessWidget {
                 color: AppColors.primary.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.school_outlined, color: AppColors.primary),
+              child: const Icon(
+                Icons.school_outlined,
+                color: AppColors.primary,
+              ),
             ),
           ],
         ),

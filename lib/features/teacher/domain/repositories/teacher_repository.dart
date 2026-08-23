@@ -2,11 +2,13 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../../../student/domain/repositories/affiliation_repository.dart';
+import '../../../student/domain/repositories/search_repository.dart';
 import '../entities/teacher_lesson_entity.dart';
 import '../entities/teacher_stats_entity.dart';
 import '../entities/teacher_student_entity.dart';
 
-abstract class TeacherRepository implements AffiliationRepository {
+abstract class TeacherRepository
+    implements AffiliationRepository, SearchRepository {
   Future<Either<Failure, TeacherStatsEntity>> getDashboardStats();
   Future<Either<Failure, List<TeacherLessonEntity>>> getMyLessons();
   Future<Either<Failure, List<TeacherStudentEntity>>> getMyStudents();

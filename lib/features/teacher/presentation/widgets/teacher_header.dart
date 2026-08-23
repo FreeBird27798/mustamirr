@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_router.dart';
-import '../../../../core/utils/coming_soon.dart';
 import '../../../auth/presentation/cubit/session_cubit.dart';
 import '../../../student/presentation/cubit/notification_badge_cubit.dart';
 
@@ -42,7 +41,7 @@ class TeacherHeader extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             GestureDetector(
-              onTap: () => showComingSoon(context),
+              onTap: () => context.push(AppRoutes.teacherSearch),
               child: const Icon(Icons.search_rounded, size: 26),
             ),
           ],

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import '../../../../core/api/api_client.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../student/data/models/affiliation_models.dart';
+import '../../../student/data/models/lesson_model.dart';
 import '../models/teacher_lesson_model.dart';
 import '../models/teacher_stats_model.dart';
 import '../models/teacher_student_model.dart';
@@ -26,6 +27,10 @@ abstract class TeacherRemoteDataSource {
     required int academicLevelId,
     required int specializationId,
   });
+
+  // ===== Search =====
+  Future<List<LessonModel>> search(String query);
+  Future<List<String>> getRecentSearches();
 }
 
 class TeacherRemoteDataSourceImpl implements TeacherRemoteDataSource {
@@ -135,5 +140,25 @@ class TeacherRemoteDataSourceImpl implements TeacherRemoteDataSource {
         'specialization_id': specializationId,
       },
     );
+  }
+
+  // ===== Search =====
+
+  @override
+  Future<List<LessonModel>> search(String query) async {
+    final res = await _dio.get(
+      '/teacher/search',
+      queryParameters: {'q': query},
+    );
+    return _asList(res.data['data']).map(LessonModel.fromJson).toList();
+  }
+
+  @override
+  Future<List<String>> getRecentSearches() async {
+    final res = await _dio.get('/teacher/search/recent');
+    return _asList(res.data['data'])
+        .map((e) => (e['term'] ?? '') as String)
+        .where((t) => t.isNotEmpty)
+        .toList();
   }
 }

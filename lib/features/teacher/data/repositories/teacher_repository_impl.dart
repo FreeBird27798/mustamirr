@@ -4,6 +4,7 @@ import '../../../../core/errors/error_mapper.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../student/domain/entities/affiliation.dart';
 import '../../../student/domain/entities/lesson_entity.dart';
+import '../../domain/entities/teacher_affiliation.dart';
 import '../../domain/entities/teacher_lesson_entity.dart';
 import '../../domain/entities/teacher_stats_entity.dart';
 import '../../domain/entities/teacher_student_entity.dart';
@@ -144,6 +145,49 @@ class TeacherRepositoryImpl implements TeacherRepository {
         institutionType: institutionType,
         institutionId: institutionId,
         academicLevelId: academicLevelId,
+        specializationId: specializationId,
+      );
+      return const Right(unit);
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
+
+  // ===== Teacher-specific affiliation =====
+
+  @override
+  Future<Either<Failure, List<SubjectOptionEntity>>> getSubjectOptions() async {
+    try {
+      return Right(await remoteDataSource.getSubjectOptions());
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TeacherAffiliationStatusEntity?>>
+  getTeacherAffiliationStatus() async {
+    try {
+      return Right(await remoteDataSource.getTeacherAffiliationStatus());
+    } catch (e) {
+      return Left(mapErrorToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> submitTeacherAffiliation({
+    required String institutionType,
+    required int institutionId,
+    required List<int> academicLevelIds,
+    required List<int> subjectIds,
+    required int specializationId,
+  }) async {
+    try {
+      await remoteDataSource.submitTeacherAffiliation(
+        institutionType: institutionType,
+        institutionId: institutionId,
+        academicLevelIds: academicLevelIds,
+        subjectIds: subjectIds,
         specializationId: specializationId,
       );
       return const Right(unit);

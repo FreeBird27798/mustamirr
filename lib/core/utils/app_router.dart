@@ -16,6 +16,7 @@ import '../../features/student/presentation/pages/affiliation_page.dart';
 import '../../features/student/presentation/pages/search_page.dart';
 import '../../features/student/presentation/pages/subjects_page.dart';
 import '../../features/student/presentation/pages/profile_page.dart';
+import '../../features/teacher/presentation/pages/teacher_affiliation_page.dart';
 import '../../features/teacher/presentation/pages/teacher_dashboard_page.dart';
 import '../../features/teacher/presentation/pages/teacher_lessons_page.dart';
 import '../../features/teacher/presentation/pages/teacher_students_page.dart';
@@ -186,7 +187,7 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.teacherAffiliation,
-      builder: (context, _) => const AffiliationPage(forTeacher: true),
+      builder: (context, _) => const TeacherAffiliationPage(),
     ),
     GoRoute(
       path: AppRoutes.studentSearch,

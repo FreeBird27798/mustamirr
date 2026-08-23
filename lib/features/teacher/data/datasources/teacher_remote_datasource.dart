@@ -3,6 +3,7 @@ import '../../../../core/api/api_client.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../student/data/models/affiliation_models.dart';
 import '../../../student/data/models/lesson_model.dart';
+import '../models/teacher_affiliation_models.dart';
 import '../models/teacher_lesson_model.dart';
 import '../models/teacher_stats_model.dart';
 import '../models/teacher_student_model.dart';
@@ -25,6 +26,17 @@ abstract class TeacherRemoteDataSource {
     required String institutionType,
     required int institutionId,
     required int academicLevelId,
+    required int specializationId,
+  });
+
+  // ===== Teacher-specific affiliation (multi-select levels + subjects) =====
+  Future<List<SubjectOptionModel>> getSubjectOptions();
+  Future<TeacherAffiliationStatusModel?> getTeacherAffiliationStatus();
+  Future<void> submitTeacherAffiliation({
+    required String institutionType,
+    required int institutionId,
+    required List<int> academicLevelIds,
+    required List<int> subjectIds,
     required int specializationId,
   });
 
@@ -137,6 +149,46 @@ class TeacherRemoteDataSourceImpl implements TeacherRemoteDataSource {
         'institution_type': institutionType,
         'institution_id': institutionId,
         'academic_level_id': academicLevelId,
+        'specialization_id': specializationId,
+      },
+    );
+  }
+
+  // ===== Teacher-specific affiliation =====
+
+  @override
+  Future<List<SubjectOptionModel>> getSubjectOptions() async {
+    final res = await _dio.get('/teacher/subjects');
+    return _asList(res.data['data']).map(SubjectOptionModel.fromJson).toList();
+  }
+
+  @override
+  Future<TeacherAffiliationStatusModel?> getTeacherAffiliationStatus() async {
+    final res = await _dio.get('/teacher/affiliation/status');
+    final data = res.data['data'];
+    if (data is Map && data['status'] != null) {
+      return TeacherAffiliationStatusModel.fromJson(
+        data.cast<String, dynamic>(),
+      );
+    }
+    return null;
+  }
+
+  @override
+  Future<void> submitTeacherAffiliation({
+    required String institutionType,
+    required int institutionId,
+    required List<int> academicLevelIds,
+    required List<int> subjectIds,
+    required int specializationId,
+  }) async {
+    await _dio.post(
+      '/teacher/affiliation/requests',
+      data: {
+        'institution_type': institutionType,
+        'institution_id': institutionId,
+        'academic_level_ids': academicLevelIds,
+        'subject_ids': subjectIds,
         'specialization_id': specializationId,
       },
     );

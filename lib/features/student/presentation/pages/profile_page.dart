@@ -56,30 +56,11 @@ class ProfilePage extends StatelessWidget {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
-                  const _SettingsTile(
-                    icon: Icons.edit_outlined,
-                    title: 'تعديل الملف الشخصي',
-                    subtitle: 'قم بتحديث معلوماتك الشخصية',
-                  ),
-                  const _SettingsTile(
-                    icon: Icons.notifications_outlined,
-                    title: 'إشعارات',
-                    subtitle: 'إدارة تفضيلات الإشعارات',
-                  ),
-                  const _SettingsTile(
-                    icon: Icons.shield_outlined,
-                    title: 'الخصوصية والأمان',
-                    subtitle: 'إعدادات أمان الحساب',
-                  ),
-                  const _SettingsTile(
-                    icon: Icons.help_outline_rounded,
-                    title: 'المساعدة والدعم',
-                    subtitle: 'احصل على المساعدة واتصل بالدعم',
-                  ),
-                  const _SettingsTile(
-                    icon: Icons.settings_outlined,
-                    title: 'إعدادات التطبيق',
-                    subtitle: 'تخصيص تفضيلات التطبيق',
+                  _SettingsTile(
+                    icon: Icons.school_outlined,
+                    title: 'المؤسسة التعليمية',
+                    subtitle: 'حدّد مدرستك أو جامعتك وصفك وتخصصك',
+                    onTap: () => context.push(AppRoutes.affiliation),
                   ),
                   const SizedBox(height: 12),
                   BlocBuilder<AuthBloc, AuthState>(
@@ -170,11 +151,13 @@ class _SettingsTile extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
+  final VoidCallback? onTap;
 
   const _SettingsTile({
     required this.icon,
     required this.title,
     required this.subtitle,
+    this.onTap,
   });
 
   @override
@@ -186,7 +169,7 @@ class _SettingsTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: () => showComingSoon(context),
+          onTap: onTap ?? () => showComingSoon(context),
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Row(
